@@ -714,37 +714,34 @@
   }
 
   .subscription-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
 
   .subscription-option {
-    padding: 32px 20px 24px 20px;
-    min-height: 130px;
+    padding: 24px 12px 16px 12px;
+    min-height: 110px;
+    border-radius: 16px;
   }
 
   .subscription-title {
-    font-size: 28px;
+    font-size: 24px;
   }
 
   .subscription-price {
-    font-size: 13px;
+    font-size: 11px;
   }
 
   .subscription-badge {
-    top: -11px;
-    font-size: 10px;
-    padding: 5px 14px;
+    top: -10px;
+    font-size: 9px;
+    padding: 4px 10px;
   }
   
   .subscription-badge.discount {
-    font-size: 10px;
-    padding: 3px 8px;
-    margin-right: 4px;
-  }
-  
-  .subscription-price {
-    font-size: 12px;
+    font-size: 9px;
+    padding: 2px 6px;
+    margin-right: 3px;
   }
 
   .product-buy-button {
@@ -799,32 +796,33 @@
   }
 
   .subscription-grid {
-    gap: 10px;
+    gap: 6px;
   }
 
   .subscription-option {
-    padding: 30px 16px 20px 16px;
-    min-height: 120px;
+    padding: 20px 10px 14px 10px;
+    min-height: 100px;
+    border-radius: 12px;
   }
 
   .subscription-title {
-    font-size: 24px;
+    font-size: 20px;
   }
   
   .subscription-badge {
-    top: -10px;
-    font-size: 9px;
-    padding: 4px 12px;
+    top: -9px;
+    font-size: 8px;
+    padding: 3px 8px;
   }
   
   .subscription-badge.discount {
-    font-size: 9px;
-    padding: 3px 6px;
-    margin-right: 3px;
+    font-size: 8px;
+    padding: 2px 5px;
+    margin-right: 2px;
   }
   
   .subscription-price {
-    font-size: 11px;
+    font-size: 10px;
   }
 }
 
