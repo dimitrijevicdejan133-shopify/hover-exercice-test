@@ -1,22 +1,15 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
+        "trustpilot": {
+          "type": "trustpilot",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
+            "show_trustpilot": true,
+            "trustpilot_label": "Excellent",
+            "review_count": "17,102",
+            "review_label": "avis"
           }
         },
         "title": {
@@ -29,57 +22,111 @@
         },
         "description": {
           "type": "description",
-          "settings": {}
-        },
-        "variant_picker": {
-          "type": "variant_picker",
           "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
+            "show_full_description": false
           }
         },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
+        "checkmarks": {
+          "type": "checkmarks",
           "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
+            "checkmark_1": "Lorem ipsum dolor sit amet",
+            "checkmark_2": "Lorem ipsum dolor sit amet",
+            "checkmark_3": "Lorem ipsum dolor sit amet"
           }
         },
-        "share": {
-          "type": "share",
+        "subscription_options": {
+          "type": "subscription_options",
           "settings": {
-            "share_label": "Share"
+            "show_option_1": true,
+            "option_1_badge": "Découverte",
+            "option_1_title": "1 mois",
+            "option_1_unit_price": "Soit 1,16€",
+            "option_1_period": "/ jour",
+            "show_option_2": true,
+            "option_2_badge": "-10%",
+            "option_2_title": "2 mois",
+            "option_2_unit_price": "Soit 1,05€",
+            "option_2_period": "/ jour"
+          }
+        },
+        "buy_button": {
+          "type": "buy_button",
+          "settings": {
+            "button_text": "Ajouter au panier",
+            "sold_out_text": "Sold Out"
+          }
+        },
+        "availability": {
+          "type": "availability",
+          "settings": {
+            "in_stock_text": "En stock,",
+            "availability_message": "commandez maintenant et soyez livré le 25 mars",
+            "out_of_stock_text": "Out of stock"
+          }
+        },
+        "collapsible_1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Bienfaits et Efficacité",
+            "content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>",
+            "open_by_default": false
+          }
+        },
+        "collapsible_2": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Ingrédients",
+            "content": "<p>Add your ingredients information here.</p>",
+            "open_by_default": false
+          }
+        },
+        "collapsible_3": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Utilisation & Précautions",
+            "content": "<p>Add your usage and precautions information here.</p>",
+            "open_by_default": false
+          }
+        },
+        "collapsible_4": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Certificats & Études",
+            "content": "<p>Add your certificates and studies information here.</p>",
+            "open_by_default": false
+          }
+        },
+        "collapsible_5": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Livraison & Retour",
+            "content": "<p>Add your shipping and return policy here.</p>",
+            "open_by_default": false
           }
         }
       },
       "block_order": [
-        "vendor",
+        "trustpilot",
         "title",
         "price",
         "description",
-        "variant_picker",
-        "quantity_selector",
-        "buy_buttons",
-        "share"
+        "checkmarks",
+        "subscription_options",
+        "buy_button",
+        "availability",
+        "collapsible_1",
+        "collapsible_2",
+        "collapsible_3",
+        "collapsible_4",
+        "collapsible_5"
       ],
       "settings": {
-        "enable_sticky_info": true,
-        "color_scheme": "scheme-1",
-        "media_size": "medium",
-        "constrain_to_viewport": true,
-        "media_fit": "cover",
-        "gallery_layout": "stacked",
-        "mobile_thumbnails": "hide",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": true,
-        "enable_video_looping": false,
+        "primary_color": "#000000",
+        "secondary_color": "#D4E9E7",
+        "text_color": "#000000",
+        "background_color": "#FFFFFF",
         "padding_top": 36,
-        "padding_bottom": 12
+        "padding_bottom": 36
       }
     },
     "related-products": {
