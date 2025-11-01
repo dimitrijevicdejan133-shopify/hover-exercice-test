@@ -251,37 +251,28 @@
 
 .subscription-option {
   position: relative;
-  padding: 24px 20px;
-  border: 2px solid #E8E8E8;
-  border-radius: 16px;
+  padding: 32px 24px 24px 24px;
+  border: 2px solid #E0E0E0;
+  border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
   background: #FFFFFF;
   outline: none;
-}
-
-.subscription-option:first-child {
-  background: #FFFFFF;
-  border-color: #E8E8E8;
-}
-
-.subscription-option:last-child {
-  background: #FFFFFF;
-  border-color: #E8E8E8;
+  min-height: 140px;
 }
 
 .subscription-option:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Selected state with background color */
 .subscription-option.selected {
   background: #D4E9E7 !important;
-  border-color: #D4E9E7 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  transform: translateY(-1px);
+  border-color: #B8D8D5 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
 }
 
 /* Remove focus outline for subscription options */
@@ -293,46 +284,74 @@
   outline: none;
 }
 
+/* Badge positioning at TOP border */
 .subscription-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
   display: inline-block;
-  padding: 6px 14px;
-  border-radius: 14px;
-  font-size: 12px;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 11px;
   font-weight: 600;
-  margin-bottom: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #FFFFFF;
   color: #000000;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
+  text-transform: capitalize;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
 }
 
+/* Discount badge positioned LEFT of price text */
 .subscription-badge.discount {
+  position: static;
+  transform: none;
   background: #000000;
   color: #FFFFFF;
-  padding: 6px 12px;
-  border-radius: 20px;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 6px;
+  vertical-align: middle;
+  box-shadow: none;
+  display: inline-block;
+}
+
+.subscription-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .subscription-title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: #000000;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .subscription-price {
-  font-size: 13px;
-  color: #666666;
-  line-height: 1.4;
+  font-size: 14px;
+  color: #757575;
+  line-height: 1.5;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .subscription-unit-price {
-  font-weight: 600;
-  color: #000000;
+  font-weight: 400;
+  color: #757575;
 }
 
 .subscription-period {
-  color: #666666;
+  color: #757575;
 }
 
 /* Buy Button */
@@ -654,20 +673,32 @@
   }
 
   .subscription-option {
-    padding: 20px 16px;
+    padding: 32px 20px 24px 20px;
+    min-height: 130px;
   }
 
   .subscription-title {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .subscription-price {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .subscription-badge {
-    font-size: 11px;
-    padding: 5px 12px;
+    top: -11px;
+    font-size: 10px;
+    padding: 5px 14px;
+  }
+  
+  .subscription-badge.discount {
+    font-size: 10px;
+    padding: 3px 8px;
+    margin-right: 4px;
+  }
+  
+  .subscription-price {
+    font-size: 12px;
   }
 
   .product-buy-button {
@@ -726,11 +757,28 @@
   }
 
   .subscription-option {
-    padding: 16px 12px;
+    padding: 30px 16px 20px 16px;
+    min-height: 120px;
   }
 
   .subscription-title {
-    font-size: 18px;
+    font-size: 24px;
+  }
+  
+  .subscription-badge {
+    top: -10px;
+    font-size: 9px;
+    padding: 4px 12px;
+  }
+  
+  .subscription-badge.discount {
+    font-size: 9px;
+    padding: 3px 6px;
+    margin-right: 3px;
+  }
+  
+  .subscription-price {
+    font-size: 11px;
   }
 }
 

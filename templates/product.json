@@ -42,11 +42,22 @@
             "option_1_title": "1 mois",
             "option_1_unit_price": "Soit 1,16€",
             "option_1_period": "/ jour",
+            "option_1_bg_color": "#F8F8F8",
+            "option_1_border_color": "#E0E0E0",
+            "option_1_badge_bg": "#FFFFFF",
+            "option_1_badge_text": "#000000",
             "show_option_2": true,
-            "option_2_badge": "-10%",
+            "option_2_title_badge": "Meilleure offre",
+            "option_2_discount_badge": "-10%",
             "option_2_title": "2 mois",
             "option_2_unit_price": "Soit 1,05€",
-            "option_2_period": "/ jour"
+            "option_2_period": "/ jour",
+            "option_2_bg_color": "#FFFFFF",
+            "option_2_border_color": "#E0E0E0",
+            "option_2_title_badge_bg": "#FFFFFF",
+            "option_2_title_badge_text": "#000000",
+            "option_2_badge_bg": "#000000",
+            "option_2_badge_text": "#FFFFFF"
           }
         },
         "buy_button": {

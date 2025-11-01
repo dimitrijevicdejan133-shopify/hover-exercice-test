@@ -83,9 +83,9 @@
                       width="200"
                       height="200"
                       loading="lazy"
-                    >
-                    {%- endif -%}
-                  </div>
+    >
+  {%- endif -%}
+      </div>
               {%- endfor -%}
                 </div>
                         {%- endif -%}
@@ -113,13 +113,13 @@
                             <path d="M10 0l2.5 7.5h7.5l-6 4.5 2.5 7.5-6-4.5-6 4.5 2.5-7.5-6-4.5h7.5z"/>
                           </svg>
                         {%- endfor -%}
-                    </div>
+                </div>
                       <span class="trustpilot-count">{{ block.settings.review_count }} {{ block.settings.review_label }}</span>
                       {%- if block.settings.trustpilot_logo -%}
                         <img src="{{ block.settings.trustpilot_logo | image_url: width: 100 }}" alt="Trustpilot" class="trustpilot-logo" width="100" height="20" loading="lazy">
-                      {%- endif -%}
-                </div>
                     {%- endif -%}
+                  </div>
+                {%- endif -%}
                 </div>
 
               {%- when 'title' -%}
@@ -132,12 +132,12 @@
                   <div class="price-wrapper">
                     <span class="price" data-product-price>
                       {{ product.selected_or_first_available_variant.price | money }}
-                  </span>
+                        </span>
                     {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
                       <span class="price-compare">
                         {{ product.selected_or_first_available_variant.compare_at_price | money }}
-                    </span>
-                            {%- endif -%}
+                        </span>
+                        {%- endif -%}
                           </div>
                 </div>
 
@@ -148,8 +148,8 @@
                   {%- else -%}
                     {%- assign description_excerpt = product.description | strip_html | truncatewords: 30 -%}
                     <p>{{ description_excerpt }}</p>
-                  {%- endif -%}
-                </div>
+                {%- endif -%}
+                      </div>
 
               {%- when 'checkmarks' -%}
                 <div class="product-checkmarks" {{ block.shopify_attributes }}>
@@ -159,7 +159,7 @@
                         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                       </svg>
                       <span>{{ block.settings.checkmark_1 }}</span>
-                          </div>
+                    </div>
                         {%- endif -%}
                   {%- if block.settings.checkmark_2 != blank -%}
                     <div class="checkmark-item">
@@ -167,7 +167,7 @@
                         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                       </svg>
                       <span>{{ block.settings.checkmark_2 }}</span>
-                  </div>
+                </div>
                     {%- endif -%}
                   {%- if block.settings.checkmark_3 != blank -%}
                     <div class="checkmark-item">
@@ -176,39 +176,57 @@
                       </svg>
                       <span>{{ block.settings.checkmark_3 }}</span>
                   </div>
-                  {%- endif -%}
-                </div>
+                            {%- endif -%}
+                          </div>
 
               {%- when 'subscription_options' -%}
                 <div class="subscription-options" {{ block.shopify_attributes }}>
                   <div class="subscription-grid">
                     {%- if block.settings.show_option_1 -%}
-                      <div class="subscription-option" data-subscription="1-month">
+                      <div class="subscription-option" data-subscription="1-month" 
+                           style="background-color: {{ block.settings.option_1_bg_color }}; border-color: {{ block.settings.option_1_border_color }};">
                         {%- if block.settings.option_1_badge -%}
-                          <span class="subscription-badge">{{ block.settings.option_1_badge }}</span>
-                        {%- endif -%}
-                        <div class="subscription-title">{{ block.settings.option_1_title }}</div>
-                        <div class="subscription-price">
-                          <span class="subscription-unit-price">{{ block.settings.option_1_unit_price }}</span>
-                          <span class="subscription-period">{{ block.settings.option_1_period }}</span>
-                    </div>
+                          <span class="subscription-badge" 
+                                style="background-color: {{ block.settings.option_1_badge_bg }}; color: {{ block.settings.option_1_badge_text }};">
+                            {{ block.settings.option_1_badge }}
+                              </span>
+                            {%- endif -%}
+                        <div class="subscription-content">
+                          <div class="subscription-title">{{ block.settings.option_1_title }}</div>
+                          <div class="subscription-price">
+                            <span class="subscription-unit-price">{{ block.settings.option_1_unit_price }}</span>
+                            <span class="subscription-period">{{ block.settings.option_1_period }}</span>
+                          </div>
                   </div>
-                {%- endif -%}
+                      </div>
+                    {%- endif -%}
 
                     {%- if block.settings.show_option_2 -%}
-                      <div class="subscription-option" data-subscription="2-month">
-                        {%- if block.settings.option_2_badge -%}
-                          <span class="subscription-badge discount">{{ block.settings.option_2_badge }}</span>
+                      <div class="subscription-option" data-subscription="2-month"
+                           style="background-color: {{ block.settings.option_2_bg_color }}; border-color: {{ block.settings.option_2_border_color }};">
+                        {%- if block.settings.option_2_title_badge -%}
+                          <span class="subscription-badge" 
+                                style="background-color: {{ block.settings.option_2_title_badge_bg }}; color: {{ block.settings.option_2_title_badge_text }};">
+                            {{ block.settings.option_2_title_badge }}
+                      </span>
+                    {%- endif -%}
+                        <div class="subscription-content">
+                          <div class="subscription-title">{{ block.settings.option_2_title }}</div>
+                          <div class="subscription-price">
+                            {%- if block.settings.option_2_discount_badge -%}
+                              <span class="subscription-badge discount" 
+                                    style="background-color: {{ block.settings.option_2_badge_bg }}; color: {{ block.settings.option_2_badge_text }};">
+                                {{ block.settings.option_2_discount_badge }}
+                      </span>
+                    {%- endif -%}
+                            <span class="subscription-unit-price">{{ block.settings.option_2_unit_price }}</span>
+                            <span class="subscription-period">{{ block.settings.option_2_period }}</span>
+                  </div>
+                </div>
+                  </div>
                           {%- endif -%}
-                        <div class="subscription-title">{{ block.settings.option_2_title }}</div>
-                        <div class="subscription-price">
-                          <span class="subscription-unit-price">{{ block.settings.option_2_unit_price }}</span>
-                          <span class="subscription-period">{{ block.settings.option_2_period }}</span>
                         </div>
-                      </div>
-                        {%- endif -%}
                               </div>
-                          </div>
 
               {%- when 'buy_button' -%}
                 {%- assign product_form_id = 'product-form-' | append: section.id -%}
@@ -219,9 +237,9 @@
                       
                       <div class="product-form__error-message-wrapper" role="alert" hidden>
                         <span class="product-form__error-message"></span>
-                      </div>
+                          </div>
                       
-                      <button
+                              <button
                         type="submit"
                         name="add"
                         class="btn-add-to-cart"
@@ -229,20 +247,20 @@
                       >
                         <span class="btn-text">
                           {%- if product.selected_or_first_available_variant.available -%}
-                            {{ block.settings.button_text }} |&nbsp; <span class="btn-price" data-cart-price data-base-price="{{ product.selected_or_first_available_variant.price | money }}">{{ product.selected_or_first_available_variant.price | money }}</span>
-                          {%- else -%}
+                            {{ block.settings.button_text }} |&nbsp;<span class="btn-price" data-cart-price data-base-price="{{ product.selected_or_first_available_variant.price | money }}">{{ product.selected_or_first_available_variant.price | money }}</span>
+                                {%- else -%}
                             {{ block.settings.sold_out_text }}
-                          {%- endif -%}
+                                        {%- endif -%}
                         </span>
                         <div class="loading__spinner hidden">
                           <svg xmlns="http://www.w3.org/2000/svg" class="spinner" viewBox="0 0 66 66">
                             <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
                           </svg>
                         </div>
-                      </button>
+                                      </button>
                     {%- endform -%}
                   </product-form>
-                </div>
+                                  </div>
 
               {%- when 'availability' -%}
                 <div class="product-availability" {{ block.shopify_attributes }}>
@@ -481,6 +499,34 @@
         },
         {
           "type": "header",
+          "content": "Option 1 Colors"
+        },
+        {
+          "type": "color",
+          "id": "option_1_bg_color",
+          "label": "Background Color",
+          "default": "#F8F8F8"
+        },
+        {
+          "type": "color",
+          "id": "option_1_border_color",
+          "label": "Border Color",
+          "default": "#E0E0E0"
+        },
+        {
+          "type": "color",
+          "id": "option_1_badge_bg",
+          "label": "Badge Background",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "option_1_badge_text",
+          "label": "Badge Text Color",
+          "default": "#000000"
+        },
+        {
+          "type": "header",
           "content": "Option 2"
         },
         {
@@ -491,8 +537,14 @@
         },
         {
           "type": "text",
-          "id": "option_2_badge",
-          "label": "Badge Text",
+          "id": "option_2_title_badge",
+          "label": "Title Badge (Top Border)",
+          "default": "Meilleure offre"
+        },
+        {
+          "type": "text",
+          "id": "option_2_discount_badge",
+          "label": "Discount Badge (Left of Price)",
           "default": "-10%"
         },
         {
@@ -512,6 +564,46 @@
           "id": "option_2_period",
           "label": "Period",
           "default": "/ jour"
+        },
+        {
+          "type": "header",
+          "content": "Option 2 Colors"
+        },
+        {
+          "type": "color",
+          "id": "option_2_bg_color",
+          "label": "Background Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "option_2_border_color",
+          "label": "Border Color",
+          "default": "#E0E0E0"
+        },
+        {
+          "type": "color",
+          "id": "option_2_title_badge_bg",
+          "label": "Title Badge Background",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "option_2_title_badge_text",
+          "label": "Title Badge Text Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "option_2_badge_bg",
+          "label": "Discount Badge Background",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "option_2_badge_text",
+          "label": "Discount Badge Text Color",
+          "default": "#FFFFFF"
         }
       ]
     },
