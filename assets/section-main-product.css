@@ -21,26 +21,44 @@
 
 .product-gallery__main {
   position: relative;
-  margin-bottom: 20px;
-  border-radius: 20px;
+  margin-bottom: 16px;
+  border-radius: var(--gallery-border-radius, 24px);
   overflow: hidden;
   background: linear-gradient(135deg, #5A9A97 0%, #3D7A7A 100%);
+  max-width: var(--main-image-max-width, 600px);
+  width: 100%;
+  height: auto;
 }
 
 .product-gallery__item {
     display: none;
   position: relative;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .product-gallery__item.active {
   display: block;
+  animation: fadeInImage 0.4s ease forwards;
+}
+
+@keyframes fadeInImage {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .product-gallery__item img {
   width: 100%;
   height: auto;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
 }
 
 .product-badge {
@@ -49,37 +67,42 @@
   left: 20px;
   background: #FFFFFF;
   color: #000000;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
+  padding: 8px 18px;
+  border-radius: 24px;
+  font-size: 13px;
   font-weight: 500;
   z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product-gallery__thumbnails {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(var(--thumbnail-columns, 2), 1fr);
   gap: 12px;
 }
 
 .product-gallery__thumb {
-  border-radius: 12px;
+  border-radius: calc(var(--gallery-border-radius, 24px) * 0.67);
   overflow: hidden;
   cursor: pointer;
   border: 2px solid transparent;
   transition: all 0.3s ease;
   aspect-ratio: 1;
   outline: none;
+  background: #f5f5f5;
+  min-height: var(--thumbnail-size, 120px);
 }
 
 .product-gallery__thumb:hover {
   border-color: var(--color-primary);
-  transform: translateY(-2px);
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .product-gallery__thumb.active {
   border-color: var(--color-primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: scale(1);
 }
 
 .product-gallery__thumb:focus {
@@ -94,14 +117,27 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
 }
 
 .product-gallery__placeholder {
   background: #f5f5f5;
-  border-radius: 20px;
+  border-radius: var(--gallery-border-radius, 24px);
   padding: 60px;
   text-align: center;
+  max-width: var(--main-image-max-width, 600px);
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-gallery__placeholder svg {
+  max-width: 200px;
+  height: auto;
+  opacity: 0.3;
 }
 
 /* Product Info */
@@ -589,20 +625,30 @@
 
   .product-gallery__main {
   border-radius: 0;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    /* Mobile uses custom max-width, height is flexible */
+    max-width: var(--mobile-image-max-width, 400px);
+    width: 100%;
+    height: auto;
   }
 
   .product-gallery__thumbnails {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
     padding: 0 16px;
+  }
+
+  .product-gallery__thumb {
+    border-radius: 12px;
+    min-height: 100px;
   }
 
   .product-badge {
     top: 12px;
     left: 12px;
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 6px 14px;
+    font-size: 11px;
+    border-radius: 20px;
   }
 
   .product-info {
@@ -787,6 +833,22 @@
     gap: 40px;
   }
 
+  .product-gallery__main {
+    /* Tablet respects custom aspect ratio but caps border radius */
+    border-radius: min(var(--gallery-border-radius, 24px), 20px);
+  }
+
+  .product-gallery__thumbnails {
+    /* Tablet uses custom columns or defaults to 2 */
+    grid-template-columns: repeat(var(--thumbnail-columns, 2), 1fr);
+    gap: 10px;
+  }
+
+  .product-gallery__thumb {
+    border-radius: 14px;
+    min-height: max(var(--thumbnail-size, 120px) * 0.83, 100px);
+  }
+
   .product-info__wrapper {
     column-gap: 16px;
   }
@@ -876,7 +938,7 @@
 @media print {
   .product-gallery__thumbnails,
   .btn-add-to-cart {
-    display: none;
-  }
+  display: none;
+}
 }
 
