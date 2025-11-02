@@ -3598,8 +3598,8 @@ details-disclosure > details {
 
 @font-face {
   font-family: 'Gotham';
-  src: url('{{ "gothambold-webfont.woff" | asset_url }}') format('woff'),
-       url('{{ "gothambook-webfont.woff" | asset_url }}') format('woff'),
+  src: url('{{ "gothambook-webfont.woff" | asset_url }}') format('woff'),
+       url('{{ "gothambold-webfont.woff" | asset_url }}') format('woff'),
        url('{{ "gothammedium-webfont.woff" | asset_url }}') format('woff');
   font-display: swap;
   /* font-weight: 400; */

@@ -315,10 +315,11 @@
 .checkmark-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 2px;
   margin-bottom: 6px;
   font-size: 14px;
-  line-height: 1.4;
+  /* line-height: 1.4; */
+  margin-bottom: 4px;
 }
 
 .checkmark-item:last-child {
@@ -576,7 +577,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 13px;
   width: 100%;
   color: #ffffff;
   font-weight: 700;
@@ -841,18 +842,20 @@
 
   .product-info__wrapper {
     column-gap: 12px;
-    row-gap: 16px;
+    /* row-gap: 16px; */
     padding: 0 15px;
   }
 
   .product-title {
     grid-column: 1;
     margin: 0;
+    padding: 0;
+    margin-top: 15px;
+    margin-bottom: 10px;
   }
 
   .product-title h1 {
-    font-size: 24px;
-    line-height: 1.3;
+    font-size: 26px;
   }
 
   .product-title+.product-price {
@@ -861,7 +864,7 @@
   }
 
   .price {
-    font-size: 24px;
+    font-size: 16px !important;
   }
 
   .price-compare {
@@ -869,13 +872,21 @@
   }
 
   .product-description {
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 12px;
+    line-height: 150%;
+  }
+
+  .product-description p {
+    margin: 0 0 10px;
+  }
+
+  .product-checkmarks {
+    margin-bottom: 35px;
   }
 
   .checkmark-item {
-    font-size: 14px;
-    margin-bottom: 6px;
+    font-size: 12px;
+    margin-bottom: 4px;
   }
 
   .checkmark-item svg {
@@ -899,11 +910,11 @@
   }
 
   .subscription-title {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .subscription-price {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .subscription-badge {
@@ -913,9 +924,10 @@
   }
 
   .subscription-badge.discount {
-    font-size: 9px;
-    padding: 2px 6px;
+    font-size: 10px;
+    padding: 1px 6px;
     margin-right: 3px;
+    height: 17px;
   }
 
   .product-buy-button {
@@ -923,9 +935,11 @@
   }
 
   .btn-add-to-cart {
-    padding: 18px 24px;
-    font-size: 16px;
-    min-height: 56px;
+    padding: 16px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 54px;
+    margin-top: 20px;
   }
 
   .product-availability {
@@ -934,6 +948,10 @@
 
   .availability-text {
     font-size: 13px;
+    line-height: 125%;
+    letter-spacing: 0px;
+    margin-top: 15px;
+    margin-bottom: 35px;
   }
 
   .collapsible-tabs-wrapper {
@@ -941,16 +959,16 @@
   }
 
   .collapsible-tab details {
-    padding: 16px 0;
+    padding: 20px 0;
   }
 
   .collapsible-tab summary {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .collapsible-content {
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 12px;
+    /* line-height: 1.6; */
   }
 }
 
