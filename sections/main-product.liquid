@@ -59,7 +59,10 @@
           <div class="product-gallery__desktop">
             <div class="product-gallery__main">
               {%- for media in product.media -%}
-                <div class="product-gallery__item {% if forloop.first %}active{% endif %}" data-media-id="{{ media.id }}">
+                <div
+                  class="product-gallery__item {% if forloop.first %}active{% endif %}"
+                  data-media-id="{{ media.id }}"
+                >
                   {%- if product.metafields.custom.badge -%}
                     <div class="product-badge">{{ product.metafields.custom.badge }}</div>
                   {%- endif -%}
@@ -184,7 +187,7 @@
               {%- break -%}
             {%- endif -%}
           {%- endfor -%}
-          
+
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'trustpilot' -%}
@@ -370,7 +373,9 @@
                       >
                         <span class="btn-text">
                           {%- if product.selected_or_first_available_variant.available -%}
-                            {{ block.settings.button_text }} <span class="btn-price-separator"></span> <span
+                            {{ block.settings.button_text }}
+                            <span class="btn-price-separator"></span>
+                            <span
                               class="btn-price"
                               data-cart-price
                               data-base-price="{{ product.selected_or_first_available_variant.price | money }}"
@@ -403,9 +408,9 @@
                     </p>
                   {%- endif -%}
                 </div>
-              {%- endcase -%}
+            {%- endcase -%}
           {%- endfor -%}
-          
+
           {%- if has_collapsible_tabs -%}
             <div class="collapsible-tabs-wrapper">
               {%- for block in section.blocks -%}

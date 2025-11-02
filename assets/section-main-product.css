@@ -13,7 +13,6 @@
   align-items: start;
 }
 
-/* Fixed widths for 1440px viewport and above */
 @media screen and (min-width: 1440px) {
   .product-layout {
     grid-template-columns: 677px 560px;
@@ -27,7 +26,6 @@
   }
 }
 
-/* Proportional widths for screens 990px - 1439px */
 @media screen and (min-width: 990px) and (max-width: 1439px) {
   .product-layout {
     grid-template-columns: 1fr 0.83fr;
@@ -54,13 +52,11 @@
   }
 }
 
-/* Product Gallery */
 .product-gallery {
   position: sticky;
   top: 20px;
 }
 
-/* Desktop Gallery - Show on desktop, hide on mobile */
 .product-gallery__desktop {
   display: block;
 }
@@ -193,14 +189,10 @@
   opacity: 0.3;
 }
 
-/* Product Info */
 .product-info {
   padding: 0;
 }
 
-/* Grid handles spacing, remove individual margins */
-
-/* Trustpilot */
 .product-trustpilot {
   /* margin: 0; */
 }
@@ -232,7 +224,6 @@
   width: auto;
 }
 
-/* Product Title & Price Layout - Using CSS Grid for same line alignment */
 .product-info__wrapper {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -241,12 +232,10 @@
   align-items: baseline;
 }
 
-/* All blocks span full width by default */
 .product-info__wrapper>* {
   grid-column: 1 / -1;
 }
 
-/* Product Title - Left column */
 .product-title {
   grid-column: 1;
   margin: 0;
@@ -261,11 +250,9 @@
   color: #171714;
 }
 
-/* Product Price - Right column, same row as title */
 .product-title+.product-price {
   grid-column: 2;
   grid-row: 2;
-  /* Same row as title (title is also row 2 after trustpilot) */
   margin: 0;
 }
 
@@ -294,7 +281,6 @@
   text-decoration: line-through;
 }
 
-/* Product Description */
 .product-description {
   font-size: 14px;
   line-height: 150%;
@@ -310,7 +296,6 @@
   font-weight: 600;
 }
 
-/* Checkmarks */
 .product-checkmarks {
   margin: 0;
 }
@@ -321,7 +306,6 @@
   gap: 2px;
   margin-bottom: 6px;
   font-size: 14px;
-  /* line-height: 1.4; */
   margin-bottom: 4px;
 }
 
@@ -334,7 +318,6 @@
   color: #000000;
 }
 
-/* Subscription Options */
 .subscription-options {
   margin: 0;
   margin-top: 35px;
@@ -363,20 +346,17 @@
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.05);
 }
 
-/* Selected state with background color */
 .subscription-option.selected {
   background: var(--subscription-selected-bg, #D4E9E7) !important;
   border-color: var(--subscription-selected-border-color, #B8D8D5) !important;
   border-width: var(--subscription-selected-border-width, 2px) !important;
 }
 
-/* Change badge color when subscription button is selected */
 .subscription-option.selected .subscription-badge {
   background: var(--subscription-selected-badge-bg, #000000) !important;
   color: var(--subscription-selected-badge-text, #FFFFFF) !important;
 }
 
-/* Remove focus outline for subscription options */
 .subscription-option:focus {
   outline: none;
 }
@@ -385,7 +365,6 @@
   outline: none;
 }
 
-/* Badge positioning at TOP border */
 .subscription-badge {
   position: absolute;
   top: -13px;
@@ -404,7 +383,6 @@
   height: 26px;
 }
 
-/* Discount badge positioned LEFT of price text */
 .subscription-badge.discount {
   position: static;
   transform: none;
@@ -413,9 +391,7 @@
   padding: 1px 8px;
   border-radius: 16px;
   font-size: 12px;
-  /* font-weight: 700; */
   margin-right: 6px;
-  /* vertical-align: middle; */
   box-shadow: none;
   display: inline-block;
   height: 20px;
@@ -456,7 +432,6 @@
   color: #787878;
 }
 
-/* Buy Button */
 .product-buy-button {
   margin-top: 30px;
 }
@@ -561,7 +536,6 @@
   }
 }
 
-/* Error Message */
 .product-form__error-message-wrapper {
   margin-bottom: 16px;
   padding: 12px 16px;
@@ -584,7 +558,6 @@
   width: 100%;
   color: #ffffff;
   font-weight: 700;
-  /* font-size: 20px; */
 }
 
 .btn-price {
@@ -601,7 +574,6 @@
   border-radius: 2px;
 }
 
-/* Availability */
 .product-availability {
   text-align: center;
   margin-top: 15px;
@@ -624,7 +596,6 @@
   font-weight: 500;
 }
 
-/* Collapsible Tabs */
 .collapsible-tabs-wrapper {
   margin: 20px 0;
   grid-column: 1 / -1;
@@ -689,7 +660,6 @@
   margin-bottom: 0;
 }
 
-/* Mobile Responsive */
 @media screen and (max-width: 749px) {
   body {
     overflow-x: hidden;
@@ -730,12 +700,10 @@
     margin-left: calc(-50vw + 50%);
   }
 
-  /* Hide desktop gallery on mobile */
   .product-gallery__desktop {
     display: none;
   }
 
-  /* Show mobile swiper on mobile */
   .product-gallery__mobile {
     display: block;
     width: 100%;
@@ -744,7 +712,6 @@
     overflow: hidden;
   }
 
-  /* Mobile Swiper Container - Continuous Scroll - ONLY for product gallery */
   .custom-product-page .product-gallery__mobile .product-gallery__swiper {
     display: flex;
     overflow-x: scroll;
@@ -763,17 +730,14 @@
     max-width: 100%;
   }
 
-  /* Dragging state */
   .custom-product-page .product-gallery__mobile .product-gallery__swiper.is-dragging {
     cursor: grabbing;
   }
 
-  /* Hide scrollbar for Chrome, Safari and Opera */
   .custom-product-page .product-gallery__mobile .product-gallery__swiper::-webkit-scrollbar {
     display: none;
   }
 
-  /* Individual Slide - Fixed 340px width */
   .custom-product-page .product-gallery__mobile .product-gallery__slide {
     position: relative;
     flex: 0 0 340px;
@@ -798,7 +762,6 @@
     pointer-events: none;
   }
 
-  /* Custom Scrollbar - ONLY for product gallery */
   .custom-product-page .product-gallery__mobile .product-gallery__scrollbar {
     margin-top: 16px;
     padding: 0 16px;
@@ -817,7 +780,7 @@
     height: 100%;
     background: var(--mobile-scrollbar-thumb, #000000);
     border-radius: 2px;
-    width: 33.33%; /* Will be calculated by JS based on number of images */
+    width: 33.33%;
     transform: translateX(0);
     will-change: transform;
   }
@@ -835,8 +798,6 @@
   .product-info {
     padding: 0;
   }
-
-  /* Grid handles spacing in mobile too */
 
   .trustpilot-widget {
     font-size: 12px;
@@ -979,7 +940,6 @@
   }
 }
 
-/* Small mobile devices */
 @media screen and (max-width: 360px) {
   .product-title h1 {
     font-size: 24px;
@@ -1069,8 +1029,6 @@
   }
 }
 
-/* Focus States for Accessibility */
-/* Remove outlines for all interactive elements - they use custom visual feedback */
 .product-gallery__thumb:focus,
 .product-gallery__thumb:focus-visible,
 .subscription-option:focus,
@@ -1082,7 +1040,6 @@
   outline: none;
 }
 
-/* Animation utilities */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1112,25 +1069,21 @@
   animation-delay: calc(var(--animation-order, 0) * 0.1s);
 }
 
-/* Smooth transitions */
 * {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Image loading optimization */
 .product-gallery__item img,
 .product-gallery__thumb img {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }
 
-/* Selection styling */
 ::selection {
   background-color: var(--color-primary);
   color: #FFFFFF;
 }
 
-/* Print styles */
 @media print {
 
   .product-gallery__thumbnails,
