@@ -1,11 +1,11 @@
-  {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
-  {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
-  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
 
 <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
-  {%- style -%}
+{%- style -%}
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -25,13 +25,22 @@
     --color-background: {{ section.settings.background_color }};
     --font-heading: {{ section.settings.font_heading.family }}, {{ section.settings.font_heading.fallback_families }};
     --font-body: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }};
-    --main-image-max-width: {{ section.settings.main_image_max_width }}px;
-    --mobile-image-max-width: {{ section.settings.mobile_image_max_width }}px;
+    --desktop-image-height: {{ section.settings.desktop_image_height | default: 657 }}px;
+    --mobile-image-height: {{ section.settings.mobile_image_height | default: 350 }}px;
     --thumbnail-columns: {{ section.settings.thumbnail_columns }};
     --thumbnail-size: {{ section.settings.thumbnail_size }}px;
     --gallery-border-radius: {{ section.settings.gallery_border_radius }}px;
+    --subscription-button-height-desktop: {{ section.settings.subscription_button_height_desktop | default: 99 }}px;
+    --subscription-button-height-mobile: {{ section.settings.subscription_button_height_mobile | default: 78 }}px;
+    --subscription-selected-bg: {{ section.settings.subscription_selected_bg | default: '#D4E9E7' }};
+    --subscription-selected-border-color: {{ section.settings.subscription_selected_border_color | default: '#B8D8D5' }};
+    --subscription-selected-border-width: {{ section.settings.subscription_selected_border_width | default: 2 }}px;
+    --subscription-selected-badge-bg: {{ section.settings.subscription_selected_badge_bg | default: '#000000' }};
+    --subscription-selected-badge-text: {{ section.settings.subscription_selected_badge_text | default: '#FFFFFF' }};
+    --mobile-scrollbar-bg: {{ section.settings.mobile_scrollbar_bg | default: '#E0E0E0' }};
+    --mobile-scrollbar-thumb: {{ section.settings.mobile_scrollbar_thumb | default: '#000000' }};
     }
-  {%- endstyle -%}
+{%- endstyle -%}
 
 <product-info
   id="ProductInfo-{{ section.id }}"
@@ -41,85 +50,143 @@
   data-update-url="true"
   data-url="{{ product.url }}"
 >
-  <div class="page-width">
+  <div class="page-inner">
     <div class="product-layout">
       <!-- Product Gallery -->
       <div class="product-gallery">
         {%- if product.media.size > 0 -%}
-          <div class="product-gallery__main">
-            {%- for media in product.media -%}
-              <div class="product-gallery__item {% if forloop.first %}active{% endif %}" data-media-id="{{ media.id }}">
-                {%- if product.metafields.custom.badge -%}
-                  <div class="product-badge">{{ product.metafields.custom.badge }}</div>
-  {%- endif -%}
+          <!-- Desktop Gallery -->
+          <div class="product-gallery__desktop">
+            <div class="product-gallery__main">
+              {%- for media in product.media -%}
+                <div class="product-gallery__item {% if forloop.first %}active{% endif %}" data-media-id="{{ media.id }}">
+                  {%- if product.metafields.custom.badge -%}
+                    <div class="product-badge">{{ product.metafields.custom.badge }}</div>
+                  {%- endif -%}
 
-                {%- case media.media_type -%}
-                  {%- when 'image' -%}
-                    <img
-                      src="{{ media | image_url: width: 800 }}"
-                      srcset="{{ media | image_url: width: 400 }} 400w,
-                              {{ media | image_url: width: 600 }} 600w,
-                              {{ media | image_url: width: 800 }} 800w,
-                              {{ media | image_url: width: 1000 }} 1000w"
-                      sizes="(max-width: 749px) 100vw, 50vw"
-                      alt="{{ media.alt | escape }}"
-                      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                      width="{{ media.width }}"
-                      height="{{ media.height }}"
-                    >
-                  {%- when 'video' or 'external_video' -%}
-                    {{ media | media_tag: image_size: "800x", autoplay: true, loop: true, muted: true }}
-                {%- endcase -%}
+                  {%- case media.media_type -%}
+                    {%- when 'image' -%}
+                      <img
+                        src="{{ media | image_url: width: 800 }}"
+                        srcset="
+                          {{ media | image_url: width: 400 }} 400w,
+                          {{ media | image_url: width: 600 }} 600w,
+                          {{ media | image_url: width: 800 }} 800w,
+                          {{ media | image_url: width: 1000 }} 1000w
+                        "
+                        sizes="(max-width: 749px) 100vw, 50vw"
+                        alt="{{ media.alt | escape }}"
+                        loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                        width="{{ media.width }}"
+                        height="{{ media.height }}"
+                      >
+                    {%- when 'video', 'external_video' -%}
+                      {{ media | media_tag: image_size: '800x', autoplay: true, loop: true, muted: true }}
+                  {%- endcase -%}
                 </div>
-            {%- endfor -%}
-                </div>
-
-          {%- if product.media.size > 1 -%}
-            <div class="product-gallery__thumbnails">
-              {%- for media in product.media limit: 4 -%}
-                <div class="product-gallery__thumb {% if forloop.first %}active{% endif %}" data-media-id="{{ media.id }}">
-                  {%- if media.media_type == 'image' -%}
-                    <img
-                      src="{{ media | image_url: width: 300 }}"
-                      srcset="{{ media | image_url: width: 150 }} 150w,
-                              {{ media | image_url: width: 200 }} 200w,
-                              {{ media | image_url: width: 300 }} 300w"
-                      sizes="(max-width: 749px) 45vw, 150px"
-                      alt="{{ media.alt | escape }}"
-                      width="300"
-                      height="300"
-                      loading="lazy"
-                    >
-                  {%- else -%}
-                    <img
-                      src="{{ media.preview_image | image_url: width: 300 }}"
-                      srcset="{{ media.preview_image | image_url: width: 150 }} 150w,
-                              {{ media.preview_image | image_url: width: 200 }} 200w,
-                              {{ media.preview_image | image_url: width: 300 }} 300w"
-                      sizes="(max-width: 749px) 45vw, 150px"
-                      alt="{{ media.alt | escape }}"
-                      width="300"
-                      height="300"
-                      loading="lazy"
-    >
-  {%- endif -%}
-      </div>
               {%- endfor -%}
             </div>
-          {%- endif -%}
-                      {%- else -%}
+
+            {%- if product.media.size > 1 -%}
+              <div class="product-gallery__thumbnails">
+                {%- for media in product.media limit: 4 -%}
+                  <div
+                    class="product-gallery__thumb {% if forloop.first %}active{% endif %}"
+                    data-media-id="{{ media.id }}"
+                  >
+                    {%- if media.media_type == 'image' -%}
+                      <img
+                        src="{{ media | image_url: width: 300 }}"
+                        srcset="
+                          {{ media | image_url: width: 150 }} 150w,
+                          {{ media | image_url: width: 200 }} 200w,
+                          {{ media | image_url: width: 300 }} 300w
+                        "
+                        sizes="(max-width: 749px) 45vw, 150px"
+                        alt="{{ media.alt | escape }}"
+                        width="300"
+                        height="300"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      <img
+                        src="{{ media.preview_image | image_url: width: 300 }}"
+                        srcset="
+                          {{ media.preview_image | image_url: width: 150 }} 150w,
+                          {{ media.preview_image | image_url: width: 200 }} 200w,
+                          {{ media.preview_image | image_url: width: 300 }} 300w
+                        "
+                        sizes="(max-width: 749px) 45vw, 150px"
+                        alt="{{ media.alt | escape }}"
+                        width="300"
+                        height="300"
+                        loading="lazy"
+                      >
+                    {%- endif -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+          <!-- Mobile Swiper -->
+          <div class="product-gallery__mobile">
+            <div class="product-gallery__swiper" data-media-count="{{ product.media.size }}">
+              {%- for media in product.media -%}
+                <div class="product-gallery__slide" data-index="{{ forloop.index0 }}">
+                  {%- if forloop.first and product.metafields.custom.badge -%}
+                    <div class="product-badge">{{ product.metafields.custom.badge }}</div>
+                  {%- endif -%}
+
+                  {%- case media.media_type -%}
+                    {%- when 'image' -%}
+                      <img
+                        src="{{ media | image_url: width: 800 }}"
+                        srcset="
+                          {{ media | image_url: width: 400 }} 400w,
+                          {{ media | image_url: width: 600 }} 600w,
+                          {{ media | image_url: width: 800 }} 800w
+                        "
+                        sizes="100vw"
+                        alt="{{ media.alt | escape }}"
+                        loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                        width="{{ media.width }}"
+                        height="{{ media.height }}"
+                      >
+                    {%- when 'video', 'external_video' -%}
+                      {{ media | media_tag: image_size: '800x', autoplay: true, loop: true, muted: true }}
+                  {%- endcase -%}
+                </div>
+              {%- endfor -%}
+            </div>
+            {%- if product.media.size > 1 -%}
+              <div class="product-gallery__scrollbar">
+                <div class="product-gallery__scrollbar-track">
+                  <div class="product-gallery__scrollbar-thumb"></div>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- else -%}
           <div class="product-gallery__placeholder">
             {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-                  </div>
-                {%- endif -%}
-                      </div>
+          </div>
+        {%- endif -%}
+      </div>
 
       <!-- Product Info -->
       <div class="product-info">
         <div class="product-info__wrapper">
+          {%- assign has_collapsible_tabs = false -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'collapsible_tab' -%}
+              {%- assign has_collapsible_tabs = true -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+          
           {%- for block in section.blocks -%}
             {%- case block.type -%}
-              
               {%- when 'trustpilot' -%}
                 <div class="product-trustpilot" {{ block.shopify_attributes }}>
                   {%- if block.settings.show_trustpilot -%}
@@ -131,13 +198,23 @@
                             <path d="M10 0l2.5 7.5h7.5l-6 4.5 2.5 7.5-6-4.5-6 4.5 2.5-7.5-6-4.5h7.5z"/>
                           </svg>
                         {%- endfor -%}
-                </div>
-                      <span class="trustpilot-count">{{ block.settings.review_count }} {{ block.settings.review_label }}</span>
+                      </div>
+                      <span class="trustpilot-count">
+                        {{- block.settings.review_count }}
+                        {{ block.settings.review_label -}}
+                      </span>
                       {%- if block.settings.trustpilot_logo -%}
-                        <img src="{{ block.settings.trustpilot_logo | image_url: width: 100 }}" alt="Trustpilot" class="trustpilot-logo" width="100" height="20" loading="lazy">
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
+                        <img
+                          src="{{ block.settings.trustpilot_logo | image_url: width: 100 }}"
+                          alt="Trustpilot"
+                          class="trustpilot-logo"
+                          width="100"
+                          height="20"
+                          loading="lazy"
+                        >
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
                 </div>
 
               {%- when 'title' -%}
@@ -150,24 +227,28 @@
                   <div class="price-wrapper">
                     <span class="price" data-product-price>
                       {{ product.selected_or_first_available_variant.price | money }}
-                        </span>
-                    {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+                    </span>
+                    {%- if product.selected_or_first_available_variant.compare_at_price
+                        > product.selected_or_first_available_variant.price
+                    -%}
                       <span class="price-compare">
                         {{ product.selected_or_first_available_variant.compare_at_price | money }}
-                        </span>
-                        {%- endif -%}
-                          </div>
+                      </span>
+                    {%- endif -%}
+                  </div>
                 </div>
 
               {%- when 'description' -%}
                 <div class="product-description" {{ block.shopify_attributes }}>
-                  {%- if block.settings.show_full_description -%}
+                  {%- if block.settings.custom_description != blank -%}
+                    {{ block.settings.custom_description }}
+                  {%- elsif block.settings.show_full_description -%}
                     {{ product.description }}
                   {%- else -%}
                     {%- assign description_excerpt = product.description | strip_html | truncatewords: 30 -%}
                     <p>{{ description_excerpt }}</p>
-                {%- endif -%}
-                      </div>
+                  {%- endif -%}
+                </div>
 
               {%- when 'checkmarks' -%}
                 <div class="product-checkmarks" {{ block.shopify_attributes }}>
@@ -178,107 +259,137 @@
                       </svg>
                       <span>{{ block.settings.checkmark_1 }}</span>
                     </div>
-                        {%- endif -%}
+                  {%- endif -%}
                   {%- if block.settings.checkmark_2 != blank -%}
                     <div class="checkmark-item">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                       </svg>
                       <span>{{ block.settings.checkmark_2 }}</span>
-                </div>
-                    {%- endif -%}
+                    </div>
+                  {%- endif -%}
                   {%- if block.settings.checkmark_3 != blank -%}
                     <div class="checkmark-item">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                       </svg>
                       <span>{{ block.settings.checkmark_3 }}</span>
-                  </div>
-                            {%- endif -%}
-                          </div>
+                    </div>
+                  {%- endif -%}
+                </div>
 
               {%- when 'subscription_options' -%}
                 <div class="subscription-options" {{ block.shopify_attributes }}>
                   <div class="subscription-grid">
                     {%- if block.settings.show_option_1 -%}
-                      <div class="subscription-option" data-subscription="1-month" 
-                           style="background-color: {{ block.settings.option_1_bg_color }}; border-color: {{ block.settings.option_1_border_color }};">
+                      <div
+                        class="subscription-option"
+                        data-subscription="1-month"
+                        style="background-color: {{ block.settings.option_1_bg_color }}; border-color: {{ block.settings.option_1_border_color }};"
+                      >
                         {%- if block.settings.option_1_badge -%}
-                          <span class="subscription-badge" 
-                                style="background-color: {{ block.settings.option_1_badge_bg }}; color: {{ block.settings.option_1_badge_text }};">
+                          <span
+                            class="subscription-badge"
+                            style="background-color: {{ block.settings.option_1_badge_bg }}; color: {{ block.settings.option_1_badge_text }};"
+                          >
                             {{ block.settings.option_1_badge }}
-                              </span>
-                            {%- endif -%}
+                          </span>
+                        {%- endif -%}
                         <div class="subscription-content">
                           <div class="subscription-title">{{ block.settings.option_1_title }}</div>
                           <div class="subscription-price">
                             <span class="subscription-unit-price">{{ block.settings.option_1_unit_price }}</span>
                             <span class="subscription-period">{{ block.settings.option_1_period }}</span>
                           </div>
-                  </div>
+                        </div>
                       </div>
                     {%- endif -%}
 
                     {%- if block.settings.show_option_2 -%}
-                      <div class="subscription-option" data-subscription="2-month"
-                           style="background-color: {{ block.settings.option_2_bg_color }}; border-color: {{ block.settings.option_2_border_color }};">
+                      <div
+                        class="subscription-option"
+                        data-subscription="2-month"
+                        style="background-color: {{ block.settings.option_2_bg_color }}; border-color: {{ block.settings.option_2_border_color }};"
+                      >
                         {%- if block.settings.option_2_title_badge -%}
-                          <span class="subscription-badge" 
-                                style="background-color: {{ block.settings.option_2_title_badge_bg }}; color: {{ block.settings.option_2_title_badge_text }};">
+                          <span
+                            class="subscription-badge"
+                            style="background-color: {{ block.settings.option_2_title_badge_bg }}; color: {{ block.settings.option_2_title_badge_text }};"
+                          >
                             {{ block.settings.option_2_title_badge }}
-                      </span>
-                    {%- endif -%}
+                          </span>
+                        {%- endif -%}
                         <div class="subscription-content">
                           <div class="subscription-title">{{ block.settings.option_2_title }}</div>
                           <div class="subscription-price">
                             {%- if block.settings.option_2_discount_badge -%}
-                              <span class="subscription-badge discount" 
-                                    style="background-color: {{ block.settings.option_2_badge_bg }}; color: {{ block.settings.option_2_badge_text }};">
+                              <span
+                                class="subscription-badge discount"
+                                style="background-color: {{ block.settings.option_2_badge_bg }}; color: {{ block.settings.option_2_badge_text }};"
+                              >
                                 {{ block.settings.option_2_discount_badge }}
-                      </span>
-                    {%- endif -%}
+                              </span>
+                            {%- endif -%}
                             <span class="subscription-unit-price">{{ block.settings.option_2_unit_price }}</span>
                             <span class="subscription-period">{{ block.settings.option_2_period }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    {%- endif -%}
                   </div>
                 </div>
-                  </div>
-                          {%- endif -%}
-                        </div>
-                              </div>
 
               {%- when 'buy_button' -%}
                 {%- assign product_form_id = 'product-form-' | append: section.id -%}
                 <div class="product-buy-button" {{ block.shopify_attributes }}>
                   <product-form class="product-form">
-                    {%- form 'product', product, id: product_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" class="product-variant-id">
-                      
+                    {%- form 'product',
+                      product,
+                      id: product_form_id,
+                      novalidate: 'novalidate',
+                      data-type: 'add-to-cart-form'
+                    -%}
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="{{ product.selected_or_first_available_variant.id }}"
+                        class="product-variant-id"
+                      >
+
                       <div class="product-form__error-message-wrapper" role="alert" hidden>
                         <span class="product-form__error-message"></span>
-                          </div>
-                      
-                              <button
+                      </div>
+
+                      <button
                         type="submit"
                         name="add"
                         class="btn-add-to-cart"
-                        {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+                        {% if product.selected_or_first_available_variant.available == false %}
+                          disabled
+                        {% endif %}
                       >
                         <span class="btn-text">
                           {%- if product.selected_or_first_available_variant.available -%}
-                            {{ block.settings.button_text }} |&nbsp;<span class="btn-price" data-cart-price data-base-price="{{ product.selected_or_first_available_variant.price | money }}">{{ product.selected_or_first_available_variant.price | money }}</span>
-                                {%- else -%}
+                            {{ block.settings.button_text }} <span class="btn-price-separator"></span> <span
+                              class="btn-price"
+                              data-cart-price
+                              data-base-price="{{ product.selected_or_first_available_variant.price | money }}"
+                            >
+                              {{- product.selected_or_first_available_variant.price | money -}}
+                            </span>
+                          {%- else -%}
                             {{ block.settings.sold_out_text }}
-                                        {%- endif -%}
+                          {%- endif -%}
                         </span>
                         <div class="loading__spinner hidden">
                           <svg xmlns="http://www.w3.org/2000/svg" class="spinner" viewBox="0 0 66 66">
                             <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
                           </svg>
                         </div>
-                                      </button>
+                      </button>
                     {%- endform -%}
                   </product-form>
-                                  </div>
+                </div>
 
               {%- when 'availability' -%}
                 <div class="product-availability" {{ block.shopify_attributes }}>
@@ -290,29 +401,39 @@
                     <p class="availability-text out-of-stock">
                       {{ block.settings.out_of_stock_text }}
                     </p>
-                                {%- endif -%}
-                              </div>
-
-              {%- when 'collapsible_tab' -%}
-                <div class="collapsible-tab" {{ block.shopify_attributes }}>
-                  <details {% if block.settings.open_by_default %}open{% endif %}>
-                    <summary>
-                      <span>{{ block.settings.heading }}</span>
-                      <svg class="icon-caret" width="12" height="8" viewBox="0 0 12 8" fill="none">
-                        <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                      </svg>
-                    </summary>
-                    <div class="collapsible-content">
-                      {{ block.settings.content }}
-                            </div>
-                          </details>
-                      </div>
-
-            {%- endcase -%}
+                  {%- endif -%}
+                </div>
+              {%- endcase -%}
           {%- endfor -%}
+          
+          {%- if has_collapsible_tabs -%}
+            <div class="collapsible-tabs-wrapper">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'collapsible_tab' -%}
+                  <div class="collapsible-tab" {{ block.shopify_attributes }}>
+                    <details
+                      {% if block.settings.open_by_default %}
+                        open
+                      {% endif %}
+                    >
+                      <summary>
+                        <span>{{ block.settings.heading }}</span>
+                        <svg class="icon-caret" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                          <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                      </summary>
+                      <div class="collapsible-content">
+                        {{ block.settings.content }}
+                      </div>
+                    </details>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
       </div>
     </div>
-          </div>
   </div>
 </product-info>
 
@@ -321,8 +442,8 @@
   "name": "Product Information",
   "tag": "section",
   "class": "section",
-      "settings": [
-        {
+  "settings": [
+    {
       "type": "header",
       "content": "Colors"
     },
@@ -368,42 +489,28 @@
     },
     {
       "type": "header",
-      "content": "Gallery Settings"
-    },
-    {
-      "type": "range",
-      "id": "main_image_max_width",
-      "min": 300,
-      "max": 1200,
-      "step": 50,
-      "unit": "px",
-      "label": "Main Image Max Width",
-      "default": 600
-    },
-    {
-      "type": "header",
       "content": "Mobile Image Settings"
     },
     {
       "type": "range",
-      "id": "mobile_image_max_width",
+      "id": "mobile_image_height",
       "min": 300,
-      "max": 600,
+      "max": 800,
       "step": 25,
       "unit": "px",
-      "label": "Mobile Image Max Width",
-      "default": 400
+      "label": "Mobile Image Height",
+      "default": 350
     },
     {
       "type": "header",
       "content": "Thumbnail Settings"
     },
     {
-          "type": "select",
+      "type": "select",
       "id": "thumbnail_columns",
       "label": "Thumbnail Columns (Desktop)",
-          "options": [
-            {
+      "options": [
+        {
           "value": "2",
           "label": "2 Columns"
         },
@@ -433,10 +540,84 @@
       "id": "gallery_border_radius",
       "min": 0,
       "max": 40,
-      "step": 4,
+      "step": 2,
       "unit": "px",
       "label": "Gallery Border Radius",
       "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Mobile Gallery Settings"
+    },
+    {
+      "type": "color",
+      "id": "mobile_scrollbar_bg",
+      "label": "Mobile Scrollbar Background",
+      "default": "#E0E0E0"
+    },
+    {
+      "type": "color",
+      "id": "mobile_scrollbar_thumb",
+      "label": "Mobile Scrollbar Thumb Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Button Settings"
+    },
+    {
+      "type": "range",
+      "id": "subscription_button_height_desktop",
+      "min": 60,
+      "max": 150,
+      "step": 1,
+      "unit": "px",
+      "label": "Subscription Button Height (Desktop)",
+      "default": 99
+    },
+    {
+      "type": "range",
+      "id": "subscription_button_height_mobile",
+      "min": 50,
+      "max": 120,
+      "step": 1,
+      "unit": "px",
+      "label": "Subscription Button Height (Mobile)",
+      "default": 78
+    },
+    {
+      "type": "color",
+      "id": "subscription_selected_bg",
+      "label": "Subscription Selected Background",
+      "default": "#D4E9E7"
+    },
+    {
+      "type": "color",
+      "id": "subscription_selected_border_color",
+      "label": "Subscription Selected Border Color",
+      "default": "#B8D8D5"
+    },
+    {
+      "type": "range",
+      "id": "subscription_selected_border_width",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Subscription Selected Border Width",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "subscription_selected_badge_bg",
+      "label": "Subscription Selected Badge Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subscription_selected_badge_text",
+      "label": "Subscription Selected Badge Text Color",
+      "default": "#FFFFFF"
     },
     {
       "type": "header",
@@ -516,10 +697,17 @@
       "limit": 1,
       "settings": [
         {
+          "type": "richtext",
+          "id": "custom_description",
+          "label": "Custom Description (Optional)",
+          "info": "If set, this will override the product description"
+        },
+        {
           "type": "checkbox",
           "id": "show_full_description",
           "label": "Show Full Description",
-          "default": false
+          "default": false,
+          "info": "Only used if custom description is empty"
         }
       ]
     },
@@ -829,4 +1017,3 @@
   ]
 }
 {% endschema %}
-

@@ -3,6 +3,7 @@ if (!customElements.get('product-info')) {
       constructor() {
         super();
       this.initGallery();
+      this.initMobileSwiper();
       this.initSubscriptionOptions();
     }
 
@@ -46,6 +47,109 @@ if (!customElements.get('product-info')) {
           }
         });
       });
+    }
+
+    initMobileSwiper() {
+      const swiper = this.querySelector('.product-gallery__swiper');
+      const scrollbarThumb = this.querySelector('.product-gallery__scrollbar-thumb');
+      
+      if (!swiper || !scrollbarThumb) return;
+
+      const mediaCount = parseInt(swiper.getAttribute('data-media-count')) || 1;
+      
+      // Set scrollbar thumb width based on number of images
+      const thumbWidth = (100 / mediaCount);
+      scrollbarThumb.style.width = `${thumbWidth}%`;
+
+      // Update scrollbar continuously as user scrolls
+      const updateScrollbar = () => {
+        const maxScroll = swiper.scrollWidth - swiper.clientWidth;
+        if (maxScroll <= 0) return;
+        
+        const scrollPercentage = swiper.scrollLeft / maxScroll;
+        const maxTranslate = 100 - thumbWidth;
+        const translateX = scrollPercentage * maxTranslate;
+        scrollbarThumb.style.transform = `translateX(${translateX}%)`;
+      };
+
+      // Listen to scroll event for smooth scrollbar updates
+      swiper.addEventListener('scroll', updateScrollbar, { passive: true });
+
+      // Continuous drag functionality - just like mouse scrolling
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+      let scrollLeft = 0;
+      let hasMoved = false;
+
+      const handleDragStart = (e) => {
+        isDragging = true;
+        hasMoved = false;
+        swiper.classList.add('is-dragging');
+        
+        const touch = e.type.includes('mouse') ? e : e.touches[0];
+        startX = touch.pageX;
+        startY = touch.pageY;
+        scrollLeft = swiper.scrollLeft;
+      };
+
+      const handleDragEnd = () => {
+        if (isDragging) {
+          isDragging = false;
+          swiper.classList.remove('is-dragging');
+        }
+      };
+
+      const handleDragMove = (e) => {
+        if (!isDragging) return;
+        
+        const touch = e.type.includes('mouse') ? e : e.touches[0];
+        const x = touch.pageX;
+        const y = touch.pageY;
+        
+        // Check if it's a horizontal swipe
+        const deltaX = Math.abs(x - startX);
+        const deltaY = Math.abs(y - startY);
+        
+        if (!hasMoved && deltaY > deltaX) {
+          // More vertical than horizontal, allow page scroll
+          isDragging = false;
+          swiper.classList.remove('is-dragging');
+          return;
+        }
+        
+        if (deltaX > 3) {
+          e.preventDefault();
+          hasMoved = true;
+        }
+        
+        // Fluid, continuous scrolling - moves exactly with your drag
+        const dragDistance = x - startX;
+        swiper.scrollLeft = scrollLeft - dragDistance;
+      };
+
+      // Mouse events
+      swiper.addEventListener('mousedown', handleDragStart);
+      swiper.addEventListener('mousemove', handleDragMove);
+      swiper.addEventListener('mouseup', handleDragEnd);
+      swiper.addEventListener('mouseleave', handleDragEnd);
+
+      // Touch events for mobile
+      swiper.addEventListener('touchstart', handleDragStart, { passive: true });
+      swiper.addEventListener('touchmove', handleDragMove, { passive: false });
+      swiper.addEventListener('touchend', handleDragEnd);
+      swiper.addEventListener('touchcancel', handleDragEnd);
+
+      // Prevent click events if dragged
+      swiper.addEventListener('click', (e) => {
+        if (hasMoved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, true);
+
+      // Initial scrollbar position
+      updateScrollbar();
     }
 
     initSubscriptionOptions() {
