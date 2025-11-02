@@ -22,9 +22,9 @@
   .page-inner {
     padding: 50px 80px;
   }
-  /* .product-gallery__main {
-    height: 657px;
-  } */
+  .product-trustpilot {
+    margin-top: 30px;
+  }
 }
 
 /* Proportional widths for screens 990px - 1439px */
@@ -38,6 +38,9 @@
   }
   .btn-text {
     font-size: 20px;
+  }
+  .product-trustpilot {
+    margin-top: 30px;
   }
 }
 
@@ -199,7 +202,7 @@
 
 /* Trustpilot */
 .product-trustpilot {
-  margin: 0;
+  /* margin: 0; */
 }
 
 .trustpilot-widget {
@@ -698,6 +701,10 @@
     overflow-x: hidden;
   }
 
+  .product-trustpilot {
+    margin-top: 20px;
+  }
+
   .custom-product-page {
     overflow-x: hidden;
     max-width: 100vw;
@@ -710,7 +717,7 @@
 
   .product-layout {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 0;
     overflow-x: hidden;
     max-width: 100%;
   }
