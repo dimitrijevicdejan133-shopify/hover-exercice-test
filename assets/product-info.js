@@ -10,35 +10,29 @@ if (!customElements.get('product-info')) {
     }
 
     formatPrices() {
-      // Format main product price (with decimals)
       const mainPrice = this.querySelector('[data-product-price]');
       if (mainPrice) {
         mainPrice.textContent = this.moveCurrencyToEnd(mainPrice.textContent, true);
       }
 
-      // Format compare price (with decimals)
       const comparePrice = this.querySelector('.price-compare');
       if (comparePrice) {
         comparePrice.textContent = this.moveCurrencyToEnd(comparePrice.textContent, true);
       }
 
-      // Format button price (without decimals)
       const buttonPrice = this.querySelector('[data-cart-price]');
       if (buttonPrice) {
         buttonPrice.textContent = this.moveCurrencyToEnd(buttonPrice.textContent, false);
-        // Also update the data-base-price attribute for consistency
         const basePrice = buttonPrice.getAttribute('data-base-price');
         if (basePrice) {
           buttonPrice.setAttribute('data-base-price', this.moveCurrencyToEnd(basePrice, false));
         }
       }
 
-      // Watch for dynamic price updates
       this.setupPriceObserver();
     }
 
     setupPriceObserver() {
-      // Observe price elements for changes
       const priceElements = [
         this.querySelector('[data-product-price]'),
         this.querySelector('.price-compare'),
@@ -46,13 +40,11 @@ if (!customElements.get('product-info')) {
       ].filter(Boolean);
 
       priceElements.forEach(element => {
-        // Store the last formatted value to prevent infinite loops
         let lastValue = element.textContent;
         
         const observer = new MutationObserver((mutations) => {
           mutations.forEach((mutation) => {
             if (mutation.type === 'childList' || mutation.type === 'characterData') {
-              // Reformat when content changes
               const target = mutation.target;
               let elementToUpdate = null;
               let keepDecimals = true;
@@ -84,7 +76,6 @@ if (!customElements.get('product-info')) {
                 const currentValue = elementToUpdate.textContent;
                 const formattedValue = this.moveCurrencyToEnd(currentValue, keepDecimals);
                 
-                // Only update if the value actually changed to prevent infinite loop
                 if (currentValue !== formattedValue && formattedValue !== lastValue) {
                   lastValue = formattedValue;
                   elementToUpdate.textContent = formattedValue;
@@ -105,18 +96,14 @@ if (!customElements.get('product-info')) {
     moveCurrencyToEnd(priceText, keepDecimals = true) {
       if (!priceText) return priceText;
       
-      // Common currency symbols
-      const currencySymbols = ['€', '$', '£', '¥', '₹', '₽', '₩', '₪', '₨', '₦', '₡', '₵', '₫', '₭', '₮', '₯', '₰', '₱', '₲', '₳', '₴', '₵', '₶', '₷', '₸', '₺', '₻', '₼', '₽', '₾', '₿'];
+      const currencySymbols = ['€', '$', '£', '¥'];
       
-      // Remove any whitespace
       priceText = priceText.trim();
       
-      // Find and extract currency symbol (could be at start or end)
       let currencySymbol = '';
       let numberPart = '';
       let alreadyAtEnd = false;
       
-      // Check if currency symbol is at the start
       for (const symbol of currencySymbols) {
         if (priceText.startsWith(symbol)) {
           currencySymbol = symbol;
@@ -125,7 +112,6 @@ if (!customElements.get('product-info')) {
         }
       }
       
-      // If no symbol at start, check if it's at the end (already correct format)
       if (!currencySymbol) {
         for (const symbol of currencySymbols) {
           if (priceText.endsWith(symbol)) {
@@ -137,17 +123,14 @@ if (!customElements.get('product-info')) {
         }
       }
       
-      // If still no currency symbol, try to find currency codes
       if (!currencySymbol) {
         const currencyMap = {
           'EUR': '€',
           'USD': '$',
           'GBP': '£',
           'JPY': '¥',
-          'CNY': '¥'
         };
         
-        // Try patterns like "EUR 35,00" or "35,00 EUR"
         for (const [code, symbol] of Object.entries(currencyMap)) {
           const regexBefore = new RegExp(`^${code}\\s+(.+)`, 'i');
           const regexAfter = new RegExp(`^(.+)\\s+${code}$`, 'i');
@@ -164,41 +147,31 @@ if (!customElements.get('product-info')) {
         }
       }
       
-      // If still no currency symbol found, try to extract from HTML entities or assume Euro
       if (!currencySymbol) {
-        // Check for HTML entities like &euro; or &euro;
         if (priceText.includes('€') || priceText.includes('&euro;') || priceText.includes('&#8364;')) {
           currencySymbol = '€';
           numberPart = priceText.replace(/[€&euro;#8364;]/gi, '').trim();
         } else {
-          // Default to Euro for European locales
           currencySymbol = '€';
           numberPart = priceText;
         }
       }
       
-      // Clean up number part: remove extra spaces, keep formatting (comma or dot as decimal separator)
       numberPart = numberPart.replace(/\s+/g, '').replace(/,/g, ',');
       
-      // If no decimals should be kept and we have decimals, remove them
       if (!keepDecimals && numberPart) {
-        // Remove decimal part (e.g., "35,00" -> "35" or "35.00" -> "35")
         numberPart = numberPart.replace(/[,\.]\d+$/, '');
       }
       
-      // Build the final formatted price
       const formattedPrice = numberPart ? `${numberPart}${currencySymbol}` : priceText;
       
-      // If the price is already in the correct format, return original to prevent unnecessary updates
       if (alreadyAtEnd) {
-        // Check if we need to modify decimals
         const hasDecimals = /[,\.]\d+$/.test(numberPart);
         if (keepDecimals || !hasDecimals) {
-          return priceText; // Already correctly formatted
+          return priceText;
         }
       }
       
-      // Return formatted price with currency at the end
       return formattedPrice;
     }
 
@@ -388,8 +361,6 @@ if (!customElements.get('product-info')) {
 
       const basePrice = priceElement.getAttribute('data-base-price') || priceElement.textContent;
       
-      // For now, just keep the same price (subscription discounts can be handled separately)
-      // Format the price correctly when updating
       priceElement.textContent = this.moveCurrencyToEnd(basePrice, false);
     }
 
@@ -402,12 +373,10 @@ if (!customElements.get('product-info')) {
       
       if (!deliveryDateElement || deliveryDays === 0) return;
 
-      // Calculate delivery date
       const today = new Date();
       const deliveryDate = new Date(today);
       deliveryDate.setDate(today.getDate() + deliveryDays);
 
-      // Format date in French: "25 mars"
       const formattedDate = this.formatDateFrench(deliveryDate);
       
       if (formattedDate) {
