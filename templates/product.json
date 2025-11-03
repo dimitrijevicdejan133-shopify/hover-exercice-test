@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -23,6 +32,7 @@
         "description": {
           "type": "description",
           "settings": {
+            "custom_description": "",
             "show_full_description": false
           }
         },
@@ -42,22 +52,22 @@
             "option_1_title": "1 mois",
             "option_1_unit_price": "Soit 1,16€",
             "option_1_period": "/ jour",
-            "option_1_bg_color": "#F8F8F8",
-            "option_1_border_color": "#E0E0E0",
-            "option_1_badge_bg": "#FFFFFF",
-            "option_1_badge_text": "#000000",
+            "option_1_bg_color": "#f8f8f8",
+            "option_1_border_color": "#e0e0e0",
+            "option_1_badge_bg": "#f3f3f3",
+            "option_1_badge_text": "#171714",
             "show_option_2": true,
             "option_2_title_badge": "Meilleure offre",
             "option_2_discount_badge": "-10%",
             "option_2_title": "2 mois",
             "option_2_unit_price": "Soit 1,05€",
             "option_2_period": "/ jour",
-            "option_2_bg_color": "#FFFFFF",
-            "option_2_border_color": "#E0E0E0",
-            "option_2_title_badge_bg": "#FFFFFF",
+            "option_2_bg_color": "#ffffff",
+            "option_2_border_color": "#e0e0e0",
+            "option_2_title_badge_bg": "#ffffff",
             "option_2_title_badge_text": "#000000",
             "option_2_badge_bg": "#000000",
-            "option_2_badge_text": "#FFFFFF"
+            "option_2_badge_text": "#ffffff"
           }
         },
         "buy_button": {
@@ -133,13 +143,24 @@
       ],
       "settings": {
         "primary_color": "#000000",
-        "secondary_color": "#D4E9E7",
+        "secondary_color": "#d4e9e7",
         "text_color": "#000000",
-        "background_color": "#FFFFFF",
-        "main_image_ratio": "portrait",
+        "background_color": "#ffffff",
+        "font_heading": "assistant_n4",
+        "font_body": "assistant_n4",
+        "mobile_image_height": 350,
         "thumbnail_columns": "2",
         "thumbnail_size": 120,
         "gallery_border_radius": 24,
+        "mobile_scrollbar_bg": "#e0e0e0",
+        "mobile_scrollbar_thumb": "#000000",
+        "subscription_button_height_desktop": 99,
+        "subscription_button_height_mobile": 78,
+        "subscription_selected_bg": "#e2f2f3",
+        "subscription_selected_border_color": "#e2f2f3",
+        "subscription_selected_border_width": 1,
+        "subscription_selected_badge_bg": "#c8e4e6",
+        "subscription_selected_badge_text": "#171714",
         "padding_top": 36,
         "padding_bottom": 36
       }
