@@ -24,6 +24,10 @@
   .product-trustpilot {
     margin-top: 30px;
   }
+  .trustpilot-stars-image {
+    width: 85px;
+    height: auto;
+  }
 }
 
 @media screen and (min-width: 990px) and (max-width: 1439px) {
@@ -40,6 +44,10 @@
   .product-trustpilot {
     margin-top: 30px;
   }
+  .trustpilot-stars-image {
+    width: 85px;
+    height: auto;
+  }
 }
 
 @media screen and (min-width: 750px) and (max-width: 989px) {
@@ -49,6 +57,10 @@
   }
   .page-inner {
     padding: 50px 40px;
+  }
+  .trustpilot-stars-image {
+    width: 85px;
+    height: auto;
   }
 }
 
@@ -205,10 +217,11 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  line-height: 150%;
 }
 
 .trustpilot-label {
-  font-weight: 600;
+  font-weight: 550;
   font-size: 14px;
 }
 
@@ -217,9 +230,10 @@
   gap: 2px;
 }
 
-.trustpilot-count {
-  font-size: 14px;
-  color: #666;
+.trustpilot-mark-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .trustpilot-logo {
@@ -301,6 +315,7 @@
 
 .product-checkmarks {
   margin: 0;
+  line-height: 150%;
 }
 
 .checkmark-item {
@@ -310,6 +325,7 @@
   margin-bottom: 6px;
   font-size: 14px;
   margin-bottom: 4px;
+  line-height: 150%;
 }
 
 .checkmark-item:last-child {
@@ -688,6 +704,11 @@
     margin-top: 20px;
   }
 
+  .trustpilot-stars-image {
+    width: 85px;
+    height: auto;
+  }
+
   .custom-product-page {
     overflow-x: hidden;
     max-width: 100vw;
@@ -819,6 +840,10 @@
   .trustpilot-stars svg {
     width: 16px;
     height: 16px;
+  }
+
+  .trustpilot-label {
+    font-size: 12px;
   }
 
   .product-info__wrapper {

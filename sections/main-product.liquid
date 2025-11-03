@@ -196,16 +196,23 @@
                     <div class="trustpilot-widget">
                       <span class="trustpilot-label">{{ block.settings.trustpilot_label }}</span>
                       <div class="trustpilot-stars">
-                        {%- for i in (1..5) -%}
+                        {% comment %} {%- for i in (1..5) -%}
                           <svg width="20" height="20" viewBox="0 0 20 20" fill="#00b67a">
                             <path d="M10 0l2.5 7.5h7.5l-6 4.5 2.5 7.5-6-4.5-6 4.5 2.5-7.5-6-4.5h7.5z"/>
                           </svg>
-                        {%- endfor -%}
+                        {%- endfor -%} {% endcomment %}
+                        <img class="trustpilot-stars-image" src="{{ 'Trustpilot_-_etoiles.png' | file_url }}" alt="Trustpilot stars" width="85" height="16">
                       </div>
-                      <span class="trustpilot-count">
+                      <span class="trustpilot-label">
                         {{- block.settings.review_count }}
                         {{ block.settings.review_label -}}
                       </span>
+                      <div class="trustpilot-mark-wrapper">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="#00b67a" style="margin-top: -2px;">
+                          <path d="M10 0l2.5 7.5h7.5l-6 4.5 2.5 7.5-6-4.5-6 4.5 2.5-7.5-6-4.5h7.5z"/>
+                        </svg>
+                        <span class="trustpilot-label">Trustpilot</span>
+                      </div>
                       {%- if block.settings.trustpilot_logo -%}
                         <img
                           src="{{ block.settings.trustpilot_logo | image_url: width: 100 }}"
