@@ -223,17 +223,14 @@ if (!customElements.get('product-info')) {
 
       const mediaCount = parseInt(swiper.getAttribute('data-media-count')) || 1;
       
-      // Only show scrollbar if there's more than one slide
       if (scrollbarThumb && scrollbarTrack && mediaCount > 1) {
-        // Calculate thumb width based on viewport vs total scrollable width
         const calculateThumbWidth = () => {
           const visibleRatio = swiper.clientWidth / swiper.scrollWidth;
-          const thumbWidthPercent = Math.max(visibleRatio * 100, 10); // minimum 10%
+          const thumbWidthPercent = Math.max(visibleRatio * 100, 10);
           scrollbarThumb.style.width = `${thumbWidthPercent}%`;
           return thumbWidthPercent;
         };
 
-        // Update scrollbar position
         let isScrolling = false;
         let scrollTimeout;
         
@@ -244,28 +241,22 @@ if (!customElements.get('product-info')) {
             return;
           }
           
-          // Remove transition during active scrolling for smooth movement
           if (!isScrolling) {
             isScrolling = true;
             scrollbarThumb.style.transition = 'none';
           }
           
-          // Calculate scroll percentage (0 to 1)
           const scrollPercentage = swiper.scrollLeft / maxScroll;
           
-          // Get actual pixel widths
           const trackWidth = scrollbarTrack.clientWidth;
           const thumbWidth = scrollbarThumb.clientWidth;
           
-          // Maximum distance the thumb can travel (in pixels)
           const maxThumbTravel = trackWidth - thumbWidth;
           
-          // Calculate the actual pixel position
           const translateXpx = scrollPercentage * maxThumbTravel;
           
           scrollbarThumb.style.transform = `translateX(${translateXpx}px)`;
           
-          // Re-enable transition after scrolling stops
           clearTimeout(scrollTimeout);
           scrollTimeout = setTimeout(() => {
             isScrolling = false;
@@ -273,13 +264,10 @@ if (!customElements.get('product-info')) {
           }, 100);
         };
 
-        // Initial calculation
         calculateThumbWidth();
         
-        // Update scrollbar on scroll
         swiper.addEventListener('scroll', updateScrollbar, { passive: true });
         
-        // Recalculate on window resize
         let resizeTimeout;
         window.addEventListener('resize', () => {
           clearTimeout(resizeTimeout);
@@ -289,20 +277,17 @@ if (!customElements.get('product-info')) {
           }, 150);
         });
 
-        // Initial update with delay to ensure DOM is ready
         setTimeout(() => {
           calculateThumbWidth();
           updateScrollbar();
         }, 100);
         
-        // Additional update after a longer delay for any lazy-loaded content
         setTimeout(() => {
           calculateThumbWidth();
           updateScrollbar();
         }, 500);
       }
 
-      // Drag functionality for mouse
       let isDragging = false;
       let startX = 0;
       let startY = 0;
@@ -337,14 +322,12 @@ if (!customElements.get('product-info')) {
         const deltaX = Math.abs(x - startX);
         const deltaY = Math.abs(y - startY);
         
-        // Allow vertical scrolling if the user is scrolling more vertically than horizontally
         if (!hasMoved && deltaY > deltaX) {
           isDragging = false;
           swiper.classList.remove('is-dragging');
           return;
         }
         
-        // Prevent default only after we're sure it's a horizontal swipe
         if (deltaX > 3) {
           e.preventDefault();
           hasMoved = true;
@@ -354,19 +337,16 @@ if (!customElements.get('product-info')) {
         swiper.scrollLeft = scrollLeft - dragDistance;
       };
 
-      // Mouse events (mainly for desktop testing)
       swiper.addEventListener('mousedown', handleDragStart);
       swiper.addEventListener('mousemove', handleDragMove);
       swiper.addEventListener('mouseup', handleDragEnd);
       swiper.addEventListener('mouseleave', handleDragEnd);
 
-      // Touch events for mobile - using passive: true for better performance
       swiper.addEventListener('touchstart', handleDragStart, { passive: true });
       swiper.addEventListener('touchmove', handleDragMove, { passive: false });
       swiper.addEventListener('touchend', handleDragEnd, { passive: true });
       swiper.addEventListener('touchcancel', handleDragEnd, { passive: true });
 
-      // Prevent click events when dragging
       swiper.addEventListener('click', (e) => {
         if (hasMoved) {
           e.preventDefault();
