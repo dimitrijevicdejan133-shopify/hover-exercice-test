@@ -217,26 +217,92 @@ if (!customElements.get('product-info')) {
     initMobileSwiper() {
       const swiper = this.querySelector('.product-gallery__swiper');
       const scrollbarThumb = this.querySelector('.product-gallery__scrollbar-thumb');
+      const scrollbarTrack = this.querySelector('.product-gallery__scrollbar-track');
       
-      if (!swiper || !scrollbarThumb) return;
+      if (!swiper) return;
 
       const mediaCount = parseInt(swiper.getAttribute('data-media-count')) || 1;
       
-      const thumbWidth = (100 / mediaCount);
-      scrollbarThumb.style.width = `${thumbWidth}%`;
+      // Only show scrollbar if there's more than one slide
+      if (scrollbarThumb && scrollbarTrack && mediaCount > 1) {
+        // Calculate thumb width based on viewport vs total scrollable width
+        const calculateThumbWidth = () => {
+          const visibleRatio = swiper.clientWidth / swiper.scrollWidth;
+          const thumbWidthPercent = Math.max(visibleRatio * 100, 10); // minimum 10%
+          scrollbarThumb.style.width = `${thumbWidthPercent}%`;
+          return thumbWidthPercent;
+        };
 
-      const updateScrollbar = () => {
-        const maxScroll = swiper.scrollWidth - swiper.clientWidth;
-        if (maxScroll <= 0) return;
+        // Update scrollbar position
+        let isScrolling = false;
+        let scrollTimeout;
         
-        const scrollPercentage = swiper.scrollLeft / maxScroll;
-        const maxTranslate = 100 - thumbWidth;
-        const translateX = scrollPercentage * maxTranslate;
-        scrollbarThumb.style.transform = `translateX(${translateX}%)`;
-      };
+        const updateScrollbar = () => {
+          const maxScroll = swiper.scrollWidth - swiper.clientWidth;
+          if (maxScroll <= 0) {
+            scrollbarThumb.style.transform = 'translateX(0px)';
+            return;
+          }
+          
+          // Remove transition during active scrolling for smooth movement
+          if (!isScrolling) {
+            isScrolling = true;
+            scrollbarThumb.style.transition = 'none';
+          }
+          
+          // Calculate scroll percentage (0 to 1)
+          const scrollPercentage = swiper.scrollLeft / maxScroll;
+          
+          // Get actual pixel widths
+          const trackWidth = scrollbarTrack.clientWidth;
+          const thumbWidth = scrollbarThumb.clientWidth;
+          
+          // Maximum distance the thumb can travel (in pixels)
+          const maxThumbTravel = trackWidth - thumbWidth;
+          
+          // Calculate the actual pixel position
+          const translateXpx = scrollPercentage * maxThumbTravel;
+          
+          scrollbarThumb.style.transform = `translateX(${translateXpx}px)`;
+          
+          // Re-enable transition after scrolling stops
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            isScrolling = false;
+            scrollbarThumb.style.transition = 'transform 0.05s ease-out';
+          }, 100);
+        };
 
-      swiper.addEventListener('scroll', updateScrollbar, { passive: true });
+        // Initial calculation
+        calculateThumbWidth();
+        
+        // Update scrollbar on scroll
+        swiper.addEventListener('scroll', updateScrollbar, { passive: true });
+        
+        // Recalculate on window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            calculateThumbWidth();
+            updateScrollbar();
+          }, 150);
+        });
 
+        // Initial update with delay to ensure DOM is ready
+        setTimeout(() => {
+          calculateThumbWidth();
+          updateScrollbar();
+        }, 100);
+        
+        // Additional update after a longer delay for any lazy-loaded content
+        setTimeout(() => {
+          calculateThumbWidth();
+          updateScrollbar();
+        }, 500);
+      }
+
+      // Drag functionality for mouse
       let isDragging = false;
       let startX = 0;
       let startY = 0;
@@ -271,12 +337,14 @@ if (!customElements.get('product-info')) {
         const deltaX = Math.abs(x - startX);
         const deltaY = Math.abs(y - startY);
         
+        // Allow vertical scrolling if the user is scrolling more vertically than horizontally
         if (!hasMoved && deltaY > deltaX) {
           isDragging = false;
           swiper.classList.remove('is-dragging');
           return;
         }
         
+        // Prevent default only after we're sure it's a horizontal swipe
         if (deltaX > 3) {
           e.preventDefault();
           hasMoved = true;
@@ -286,24 +354,25 @@ if (!customElements.get('product-info')) {
         swiper.scrollLeft = scrollLeft - dragDistance;
       };
 
+      // Mouse events (mainly for desktop testing)
       swiper.addEventListener('mousedown', handleDragStart);
       swiper.addEventListener('mousemove', handleDragMove);
       swiper.addEventListener('mouseup', handleDragEnd);
       swiper.addEventListener('mouseleave', handleDragEnd);
 
+      // Touch events for mobile - using passive: true for better performance
       swiper.addEventListener('touchstart', handleDragStart, { passive: true });
       swiper.addEventListener('touchmove', handleDragMove, { passive: false });
-      swiper.addEventListener('touchend', handleDragEnd);
-      swiper.addEventListener('touchcancel', handleDragEnd);
+      swiper.addEventListener('touchend', handleDragEnd, { passive: true });
+      swiper.addEventListener('touchcancel', handleDragEnd, { passive: true });
 
+      // Prevent click events when dragging
       swiper.addEventListener('click', (e) => {
         if (hasMoved) {
           e.preventDefault();
           e.stopPropagation();
         }
       }, true);
-
-      updateScrollbar();
     }
 
     initSubscriptionOptions() {
