@@ -116,14 +116,17 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  background: #FFFFFF;
-  color: #000000;
-  padding: 8px 18px;
-  border-radius: 24px;
-  font-size: 13px;
+  background: #F0F3E2;
+  color: #171714;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 12px;
   font-weight: 500;
   z-index: 10;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  line-height: 150%;
+  font-weight: bold;
+  letter-spacing: 0.1px;
 }
 
 .product-gallery__thumbnails {
@@ -342,10 +345,6 @@
   height: var(--subscription-button-height-desktop, 99px);
 }
 
-.subscription-option:hover {
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.05);
-}
-
 .subscription-option.selected {
   background: var(--subscription-selected-bg, #D4E9E7) !important;
   border-color: var(--subscription-selected-border-color, #B8D8D5) !important;
@@ -458,7 +457,6 @@
 
 .btn-add-to-cart:hover {
   background: #1a1a1a;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
 }
 
 .btn-add-to-cart:focus {
@@ -640,6 +638,11 @@
 .collapsible-tab summary .icon-caret {
   transition: transform 0.3s ease;
   flex-shrink: 0;
+  position: absolute;
+  right: 4px;
+  width: 15px;
+  height: 10px;
+  color: #171714;
 }
 
 .collapsible-tab details[open] summary .icon-caret {

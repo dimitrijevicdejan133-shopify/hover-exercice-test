@@ -63,8 +63,8 @@
                   class="product-gallery__item {% if forloop.first %}active{% endif %}"
                   data-media-id="{{ media.id }}"
                 >
-                  {%- if product.metafields.custom.badge -%}
-                    <div class="product-badge">{{ product.metafields.custom.badge }}</div>
+                  {%- if product.tags contains 'mens t-shirt example' -%}
+                    <div class="product-badge">Hautement dosé</div>
                   {%- endif -%}
 
                   {%- case media.media_type -%}
@@ -137,8 +137,8 @@
             <div class="product-gallery__swiper" data-media-count="{{ product.media.size }}">
               {%- for media in product.media -%}
                 <div class="product-gallery__slide" data-index="{{ forloop.index0 }}">
-                  {%- if forloop.first and product.metafields.custom.badge -%}
-                    <div class="product-badge">{{ product.metafields.custom.badge }}</div>
+                  {%- if forloop.first and product.tags contains 'mens t-shirt example' -%}
+                    <div class="product-badge">Hautement dosé</div>
                   {%- endif -%}
 
                   {%- case media.media_type -%}
@@ -258,7 +258,7 @@
                   {%- if block.settings.checkmark_1 != blank -%}
                     <div class="checkmark-item">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" stroke-width="0.4" stroke-linecap="round" stroke="currentColor" />
                       </svg>
                       <span>{{ block.settings.checkmark_1 }}</span>
                     </div>
@@ -266,7 +266,7 @@
                   {%- if block.settings.checkmark_2 != blank -%}
                     <div class="checkmark-item">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" stroke-width="0.4" stroke-linecap="round" stroke="currentColor" />
                       </svg>
                       <span>{{ block.settings.checkmark_2 }}</span>
                     </div>
@@ -274,7 +274,7 @@
                   {%- if block.settings.checkmark_3 != blank -%}
                     <div class="checkmark-item">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" stroke-width="0.4" stroke-linecap="round" stroke="currentColor" />
                       </svg>
                       <span>{{ block.settings.checkmark_3 }}</span>
                     </div>
@@ -423,8 +423,8 @@
                     >
                       <summary>
                         <span>{{ block.settings.heading }}</span>
-                        <svg class="icon-caret" width="12" height="8" viewBox="0 0 12 8" fill="none">
-                          <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <svg class="icon-caret" width="14" height="8" viewBox="0 0 12 8" fill="none">
+                          <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
                         </svg>
                       </summary>
                       <div class="collapsible-content">
