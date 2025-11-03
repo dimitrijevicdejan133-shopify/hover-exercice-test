@@ -397,10 +397,18 @@
                 </div>
 
               {%- when 'availability' -%}
-                <div class="product-availability" {{ block.shopify_attributes }}>
+                <div 
+                  class="product-availability" 
+                  {{ block.shopify_attributes }}
+                  data-delivery-days="{{ block.settings.delivery_days | default: 0 }}"
+                >
                   {%- if product.selected_or_first_available_variant.available -%}
                     <p class="availability-text">
-                      <strong>{{ block.settings.in_stock_text }}</strong> {{ block.settings.availability_message }}
+                      <strong>{{ block.settings.in_stock_text }}</strong> 
+                      <span class="availability-message">
+                        {{ block.settings.availability_message }}
+                        <span class="delivery-date"></span>
+                      </span>
                     </p>
                   {%- else -%}
                     <p class="availability-text out-of-stock">
@@ -924,13 +932,18 @@
           "type": "text",
           "id": "availability_message",
           "label": "Availability Message",
-          "default": "commandez maintenant et soyez livré le 25 mars"
+          "default": "commandez maintenant et soyez livré le",
+          "info": "The delivery date will be automatically appended. Use format like 'commandez maintenant et soyez livré le'"
         },
         {
-          "type": "text",
-          "id": "out_of_stock_text",
-          "label": "Out of Stock Text",
-          "default": "Out of stock"
+          "type": "range",
+          "id": "delivery_days",
+          "min": 0,
+          "max": 30,
+          "step": 1,
+          "label": "Delivery Time (Days)",
+          "default": 5,
+          "info": "Number of days from today to calculate the delivery date"
         }
       ]
     },

@@ -6,6 +6,7 @@ if (!customElements.get('product-info')) {
       this.initMobileSwiper();
       this.initSubscriptionOptions();
       this.formatPrices();
+      this.initDeliveryDate();
     }
 
     formatPrices() {
@@ -353,6 +354,50 @@ if (!customElements.get('product-info')) {
       // For now, just keep the same price (subscription discounts can be handled separately)
       // Format the price correctly when updating
       priceElement.textContent = this.moveCurrencyToEnd(basePrice, false);
+    }
+
+    initDeliveryDate() {
+      const availabilityBlock = this.querySelector('.product-availability[data-delivery-days]');
+      if (!availabilityBlock) return;
+
+      const deliveryDays = parseInt(availabilityBlock.getAttribute('data-delivery-days')) || 0;
+      const deliveryDateElement = availabilityBlock.querySelector('.delivery-date');
+      
+      if (!deliveryDateElement || deliveryDays === 0) return;
+
+      // Calculate delivery date
+      const today = new Date();
+      const deliveryDate = new Date(today);
+      deliveryDate.setDate(today.getDate() + deliveryDays);
+
+      // Format date in French: "25 mars"
+      const formattedDate = this.formatDateFrench(deliveryDate);
+      
+      if (formattedDate) {
+        deliveryDateElement.textContent = ' ' + formattedDate;
+      }
+    }
+
+    formatDateFrench(date) {
+      const frenchMonths = [
+        'janvier',
+        'février',
+        'mars',
+        'avril',
+        'mai',
+        'juin',
+        'juillet',
+        'août',
+        'septembre',
+        'octobre',
+        'novembre',
+        'décembre'
+      ];
+
+      const day = date.getDate();
+      const month = frenchMonths[date.getMonth()];
+
+      return `${day} ${month}`;
     }
   });
 }
