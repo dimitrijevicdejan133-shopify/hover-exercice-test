@@ -46,25 +46,48 @@ if (!customElements.get('product-info')) {
       ].filter(Boolean);
 
       priceElements.forEach(element => {
+        // Store the last formatted value to prevent infinite loops
+        let lastValue = element.textContent;
+        
         const observer = new MutationObserver((mutations) => {
           mutations.forEach((mutation) => {
             if (mutation.type === 'childList' || mutation.type === 'characterData') {
               // Reformat when content changes
               const target = mutation.target;
+              let elementToUpdate = null;
+              let keepDecimals = true;
+              
               if (target.classList && target.classList.contains('btn-price')) {
-                target.textContent = this.moveCurrencyToEnd(target.textContent, false);
+                elementToUpdate = target;
+                keepDecimals = false;
               } else if (target.classList && target.classList.contains('price-compare')) {
-                target.textContent = this.moveCurrencyToEnd(target.textContent, true);
+                elementToUpdate = target;
+                keepDecimals = true;
               } else if (target.hasAttribute && target.hasAttribute('data-product-price')) {
-                target.textContent = this.moveCurrencyToEnd(target.textContent, true);
+                elementToUpdate = target;
+                keepDecimals = true;
               } else if (target.parentElement) {
                 const parent = target.parentElement;
                 if (parent.hasAttribute && parent.hasAttribute('data-product-price')) {
-                  parent.textContent = this.moveCurrencyToEnd(parent.textContent, true);
+                  elementToUpdate = parent;
+                  keepDecimals = true;
                 } else if (parent.classList && parent.classList.contains('price-compare')) {
-                  parent.textContent = this.moveCurrencyToEnd(parent.textContent, true);
+                  elementToUpdate = parent;
+                  keepDecimals = true;
                 } else if (parent.classList && parent.classList.contains('btn-price')) {
-                  parent.textContent = this.moveCurrencyToEnd(parent.textContent, false);
+                  elementToUpdate = parent;
+                  keepDecimals = false;
+                }
+              }
+              
+              if (elementToUpdate) {
+                const currentValue = elementToUpdate.textContent;
+                const formattedValue = this.moveCurrencyToEnd(currentValue, keepDecimals);
+                
+                // Only update if the value actually changed to prevent infinite loop
+                if (currentValue !== formattedValue && formattedValue !== lastValue) {
+                  lastValue = formattedValue;
+                  elementToUpdate.textContent = formattedValue;
                 }
               }
             }
@@ -91,6 +114,7 @@ if (!customElements.get('product-info')) {
       // Find and extract currency symbol (could be at start or end)
       let currencySymbol = '';
       let numberPart = '';
+      let alreadyAtEnd = false;
       
       // Check if currency symbol is at the start
       for (const symbol of currencySymbols) {
@@ -107,6 +131,7 @@ if (!customElements.get('product-info')) {
           if (priceText.endsWith(symbol)) {
             currencySymbol = symbol;
             numberPart = priceText.slice(0, -symbol.length).trim();
+            alreadyAtEnd = true;
             break;
           }
         }
@@ -161,8 +186,20 @@ if (!customElements.get('product-info')) {
         numberPart = numberPart.replace(/[,\.]\d+$/, '');
       }
       
+      // Build the final formatted price
+      const formattedPrice = numberPart ? `${numberPart}${currencySymbol}` : priceText;
+      
+      // If the price is already in the correct format, return original to prevent unnecessary updates
+      if (alreadyAtEnd) {
+        // Check if we need to modify decimals
+        const hasDecimals = /[,\.]\d+$/.test(numberPart);
+        if (keepDecimals || !hasDecimals) {
+          return priceText; // Already correctly formatted
+        }
+      }
+      
       // Return formatted price with currency at the end
-      return numberPart ? `${numberPart}${currencySymbol}` : priceText;
+      return formattedPrice;
     }
 
     initGallery() {
