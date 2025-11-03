@@ -582,12 +582,21 @@
 .availability-text {
   font-size: 14px;
   margin: 0;
-  line-height: 1.5;
+  line-height: 150%;
+  font-weight: 500;
+  letter-spacing: normal;
 }
 
 .availability-text strong {
-  font-weight: 600;
-  color: #000000;
+  font-weight: 700;
+}
+
+.availability-message {
+  font-weight: 400;
+}
+
+.delivery-date {
+  font-weight: 700;
 }
 
 .availability-text.out-of-stock {
