@@ -3595,3 +3595,17 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('{{ "gothambook-webfont.woff" | asset_url }}') format('woff'),
+       url('{{ "gothambold-webfont.woff" | asset_url }}') format('woff'),
+       url('{{ "gothammedium-webfont.woff" | asset_url }}') format('woff');
+  font-display: swap;
+  /* font-weight: 400; */
+}
+
+* {
+  font-family: 'Gotham', sans-serif !important;
+  color: #171714;
+}

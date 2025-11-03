@@ -12,11 +12,13 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
+        "trustpilot": {
+          "type": "trustpilot",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
+            "show_trustpilot": true,
+            "trustpilot_label": "Excellent",
+            "review_count": "17,102",
+            "review_label": "avis"
           }
         },
         "title": {
@@ -27,59 +29,140 @@
           "type": "price",
           "settings": {}
         },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
-          }
-        },
         "description": {
           "type": "description",
-          "settings": {}
-        },
-        "share": {
-          "type": "share",
           "settings": {
-            "share_label": "Share"
+            "custom_description": "",
+            "show_full_description": true
+          }
+        },
+        "checkmarks": {
+          "type": "checkmarks",
+          "settings": {
+            "checkmark_1": "Lorem ipsum dolor sit amet",
+            "checkmark_2": "Lorem ipsum dolor sit amet",
+            "checkmark_3": "Lorem ipsum dolor sit amet"
+          }
+        },
+        "subscription_options": {
+          "type": "subscription_options",
+          "settings": {
+            "show_option_1": true,
+            "option_1_badge": "Découverte",
+            "option_1_title": "1 mois",
+            "option_1_unit_price": "Soit 1,16€",
+            "option_1_period": "/ jour",
+            "option_1_bg_color": "#f8f8f8",
+            "option_1_border_color": "#e0e0e0",
+            "option_1_badge_bg": "#f3f3f3",
+            "option_1_badge_text": "#171714",
+            "show_option_2": true,
+            "option_2_title_badge": "Meilleure offre",
+            "option_2_discount_badge": "-10%",
+            "option_2_title": "2 mois",
+            "option_2_unit_price": "Soit 1,05€",
+            "option_2_period": "/ jour",
+            "option_2_bg_color": "#ffffff",
+            "option_2_border_color": "#e0e0e0",
+            "option_2_title_badge_bg": "#f3f3f3",
+            "option_2_title_badge_text": "#000000",
+            "option_2_badge_bg": "#000000",
+            "option_2_badge_text": "#ffffff"
+          }
+        },
+        "buy_button": {
+          "type": "buy_button",
+          "settings": {
+            "button_text": "Ajouter au panier",
+            "sold_out_text": "Sold Out"
+          }
+        },
+        "availability": {
+          "type": "availability",
+          "settings": {
+            "in_stock_text": "En stock,",
+            "availability_message": "commandez maintenant et soyez livré le",
+            "delivery_days": 5
+          }
+        },
+        "collapsible_1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Bienfaits et Efficacité",
+            "content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>",
+            "open_by_default": false
+          }
+        },
+        "collapsible_2": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Ingrédients",
+            "content": "<p>Add your ingredients information here.</p>",
+            "open_by_default": false
+          }
+        },
+        "collapsible_3": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Utilisation & Précautions",
+            "content": "<p>Add your usage and precautions information here.</p>",
+            "open_by_default": false
+          }
+        },
+        "collapsible_4": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Certificats & Études",
+            "content": "<p>Add your certificates and studies information here.</p>",
+            "open_by_default": false
+          }
+        },
+        "collapsible_5": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Livraison & Retour",
+            "content": "<p>Add your shipping and return policy here.</p>",
+            "open_by_default": false
           }
         }
       },
       "block_order": [
-        "vendor",
+        "trustpilot",
         "title",
         "price",
-        "variant_picker",
-        "quantity_selector",
-        "buy_buttons",
         "description",
-        "share"
+        "checkmarks",
+        "subscription_options",
+        "buy_button",
+        "availability",
+        "collapsible_1",
+        "collapsible_2",
+        "collapsible_3",
+        "collapsible_4",
+        "collapsible_5"
       ],
       "settings": {
-        "enable_sticky_info": true,
-        "color_scheme": "scheme-1",
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "stacked",
-        "mobile_thumbnails": "hide",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": true,
-        "enable_video_looping": false,
+        "primary_color": "#000000",
+        "secondary_color": "#d4e9e7",
+        "text_color": "#000000",
+        "background_color": "#ffffff",
+        "font_heading": "assistant_n4",
+        "font_body": "assistant_n4",
+        "mobile_image_height": 350,
+        "thumbnail_columns": "2",
+        "thumbnail_size": 120,
+        "gallery_border_radius": 24,
+        "mobile_scrollbar_bg": "#e0e0e0",
+        "mobile_scrollbar_thumb": "#000000",
+        "subscription_button_height_desktop": 99,
+        "subscription_button_height_mobile": 78,
+        "subscription_selected_bg": "#e2f2f3",
+        "subscription_selected_border_color": "#e2f2f3",
+        "subscription_selected_border_width": 1,
+        "subscription_selected_badge_bg": "#c8e4e6",
+        "subscription_selected_badge_text": "#171714",
         "padding_top": 36,
-        "padding_bottom": 12
+        "padding_bottom": 36
       }
     },
     "related-products": {
