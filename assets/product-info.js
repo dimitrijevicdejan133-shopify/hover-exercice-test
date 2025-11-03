@@ -382,6 +382,19 @@ if (!customElements.get('product-info')) {
       if (formattedDate) {
         deliveryDateElement.textContent = ' ' + formattedDate;
       }
+
+      const availabilityMessage = availabilityBlock.querySelector('.availability-message');
+      if (availabilityMessage) {
+        const messageText = availabilityMessage.textContent;
+        
+        if (messageText.toLowerCase().includes('livré le')) {
+          const eachElems = messageText.split(" ");
+          const words = eachElems.filter(each => each !== "")
+          const replaceWords = " " + words[words.length - 4] + " " + words[words.length - 3] + " " + words[words.length - 2] + " " + words[words.length - 1];
+          const newHTML = words.slice(0, words.length - 4).join(" ") + '<span style="font-weight: bold;">' + replaceWords + '</span>';
+          availabilityMessage.innerHTML = newHTML;
+        }
+      }
     }
 
     formatDateFrench(date) {

@@ -820,8 +820,8 @@
   }
 
   .custom-product-page .product-gallery__mobile .product-badge {
-    top: 12px;
-    left: 12px;
+    top: 15px;
+    left: 15px;
     padding: 6px 14px;
     font-size: 11px;
     border-radius: 20px;
@@ -910,7 +910,7 @@
   }
 
   .subscription-option {
-    padding: 24px 12px 16px 12px;
+    padding: 20px 25.75px 15px;
     height: var(--subscription-button-height-mobile, 78px);
     border-radius: 16px;
   }
@@ -925,8 +925,11 @@
 
   .subscription-badge {
     top: -12px;
-    font-size: 9px;
-    padding: 4px 10px;
+    font-size: 10px;
+    padding: 2px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .subscription-badge.discount {
