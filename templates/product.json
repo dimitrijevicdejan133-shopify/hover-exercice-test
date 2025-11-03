@@ -81,8 +81,8 @@
           "type": "availability",
           "settings": {
             "in_stock_text": "En stock,",
-            "availability_message": "commandez maintenant et soyez livré le 25 mars",
-            "out_of_stock_text": "Out of stock"
+            "availability_message": "commandez maintenant et soyez livré le",
+            "delivery_days": 5
           }
         },
         "collapsible_1": {
