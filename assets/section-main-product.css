@@ -407,7 +407,7 @@
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 5px;
-  color: #000000;
+  /* color: #000000; */
   line-height: 100%;
 }
 
@@ -442,7 +442,7 @@
   color: #FFFFFF;
   border: none;
   border-radius: 50px;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -450,7 +450,7 @@
   align-items: center;
   justify-content: center;
   gap: 0;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.01em;
   min-height: 60px;
   outline: none;
 }
@@ -563,6 +563,7 @@
   font-weight: 700;
   color: #ffffff;
   border-radius: 4px;
+  letter-spacing: 1.5px;
 }
 
 .btn-price-separator {

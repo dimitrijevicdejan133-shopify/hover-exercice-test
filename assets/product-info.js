@@ -5,6 +5,163 @@ if (!customElements.get('product-info')) {
       this.initGallery();
       this.initMobileSwiper();
       this.initSubscriptionOptions();
+      this.formatPrices();
+    }
+
+    formatPrices() {
+      // Format main product price (with decimals)
+      const mainPrice = this.querySelector('[data-product-price]');
+      if (mainPrice) {
+        mainPrice.textContent = this.moveCurrencyToEnd(mainPrice.textContent, true);
+      }
+
+      // Format compare price (with decimals)
+      const comparePrice = this.querySelector('.price-compare');
+      if (comparePrice) {
+        comparePrice.textContent = this.moveCurrencyToEnd(comparePrice.textContent, true);
+      }
+
+      // Format button price (without decimals)
+      const buttonPrice = this.querySelector('[data-cart-price]');
+      if (buttonPrice) {
+        buttonPrice.textContent = this.moveCurrencyToEnd(buttonPrice.textContent, false);
+        // Also update the data-base-price attribute for consistency
+        const basePrice = buttonPrice.getAttribute('data-base-price');
+        if (basePrice) {
+          buttonPrice.setAttribute('data-base-price', this.moveCurrencyToEnd(basePrice, false));
+        }
+      }
+
+      // Watch for dynamic price updates
+      this.setupPriceObserver();
+    }
+
+    setupPriceObserver() {
+      // Observe price elements for changes
+      const priceElements = [
+        this.querySelector('[data-product-price]'),
+        this.querySelector('.price-compare'),
+        this.querySelector('[data-cart-price]')
+      ].filter(Boolean);
+
+      priceElements.forEach(element => {
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.type === 'childList' || mutation.type === 'characterData') {
+              // Reformat when content changes
+              const target = mutation.target;
+              if (target.classList && target.classList.contains('btn-price')) {
+                target.textContent = this.moveCurrencyToEnd(target.textContent, false);
+              } else if (target.classList && target.classList.contains('price-compare')) {
+                target.textContent = this.moveCurrencyToEnd(target.textContent, true);
+              } else if (target.hasAttribute && target.hasAttribute('data-product-price')) {
+                target.textContent = this.moveCurrencyToEnd(target.textContent, true);
+              } else if (target.parentElement) {
+                const parent = target.parentElement;
+                if (parent.hasAttribute && parent.hasAttribute('data-product-price')) {
+                  parent.textContent = this.moveCurrencyToEnd(parent.textContent, true);
+                } else if (parent.classList && parent.classList.contains('price-compare')) {
+                  parent.textContent = this.moveCurrencyToEnd(parent.textContent, true);
+                } else if (parent.classList && parent.classList.contains('btn-price')) {
+                  parent.textContent = this.moveCurrencyToEnd(parent.textContent, false);
+                }
+              }
+            }
+          });
+        });
+
+        observer.observe(element, {
+          childList: true,
+          subtree: true,
+          characterData: true
+        });
+      });
+    }
+
+    moveCurrencyToEnd(priceText, keepDecimals = true) {
+      if (!priceText) return priceText;
+      
+      // Common currency symbols
+      const currencySymbols = ['€', '$', '£', '¥', '₹', '₽', '₩', '₪', '₨', '₦', '₡', '₵', '₫', '₭', '₮', '₯', '₰', '₱', '₲', '₳', '₴', '₵', '₶', '₷', '₸', '₺', '₻', '₼', '₽', '₾', '₿'];
+      
+      // Remove any whitespace
+      priceText = priceText.trim();
+      
+      // Find and extract currency symbol (could be at start or end)
+      let currencySymbol = '';
+      let numberPart = '';
+      
+      // Check if currency symbol is at the start
+      for (const symbol of currencySymbols) {
+        if (priceText.startsWith(symbol)) {
+          currencySymbol = symbol;
+          numberPart = priceText.slice(symbol.length).trim();
+          break;
+        }
+      }
+      
+      // If no symbol at start, check if it's at the end (already correct format)
+      if (!currencySymbol) {
+        for (const symbol of currencySymbols) {
+          if (priceText.endsWith(symbol)) {
+            currencySymbol = symbol;
+            numberPart = priceText.slice(0, -symbol.length).trim();
+            break;
+          }
+        }
+      }
+      
+      // If still no currency symbol, try to find currency codes
+      if (!currencySymbol) {
+        const currencyMap = {
+          'EUR': '€',
+          'USD': '$',
+          'GBP': '£',
+          'JPY': '¥',
+          'CNY': '¥'
+        };
+        
+        // Try patterns like "EUR 35,00" or "35,00 EUR"
+        for (const [code, symbol] of Object.entries(currencyMap)) {
+          const regexBefore = new RegExp(`^${code}\\s+(.+)`, 'i');
+          const regexAfter = new RegExp(`^(.+)\\s+${code}$`, 'i');
+          
+          if (regexBefore.test(priceText)) {
+            currencySymbol = symbol;
+            numberPart = priceText.replace(regexBefore, '$1').trim();
+            break;
+          } else if (regexAfter.test(priceText)) {
+            currencySymbol = symbol;
+            numberPart = priceText.replace(regexAfter, '$1').trim();
+            break;
+          }
+        }
+      }
+      
+      // If still no currency symbol found, try to extract from HTML entities or assume Euro
+      if (!currencySymbol) {
+        // Check for HTML entities like &euro; or &euro;
+        if (priceText.includes('€') || priceText.includes('&euro;') || priceText.includes('&#8364;')) {
+          currencySymbol = '€';
+          numberPart = priceText.replace(/[€&euro;#8364;]/gi, '').trim();
+        } else {
+          // Default to Euro for European locales
+          currencySymbol = '€';
+          numberPart = priceText;
+        }
+      }
+      
+      // Clean up number part: remove extra spaces, keep formatting (comma or dot as decimal separator)
+      numberPart = numberPart.replace(/\s+/g, '').replace(/,/g, ',');
+      
+      // If no decimals should be kept and we have decimals, remove them
+      if (!keepDecimals && numberPart) {
+        // Remove decimal part (e.g., "35,00" -> "35" or "35.00" -> "35")
+        numberPart = numberPart.replace(/[,\.]\d+$/, '');
+      }
+      
+      // Return formatted price with currency at the end
+      return numberPart ? `${numberPart}${currencySymbol}` : priceText;
     }
 
     initGallery() {
@@ -193,12 +350,12 @@ if (!customElements.get('product-info')) {
 
       const basePrice = priceElement.getAttribute('data-base-price') || priceElement.textContent;
       
-      if (subscriptionType === '2-month') {
-        const discount = 0.10;
-      }
-            }
-          });
-        }
+      // For now, just keep the same price (subscription discounts can be handled separately)
+      // Format the price correctly when updating
+      priceElement.textContent = this.moveCurrencyToEnd(basePrice, false);
+    }
+  });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   const collapsibleTabs = document.querySelectorAll('.collapsible-tab details');
