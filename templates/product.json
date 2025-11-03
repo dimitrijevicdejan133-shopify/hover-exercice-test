@@ -33,7 +33,7 @@
           "type": "description",
           "settings": {
             "custom_description": "",
-            "show_full_description": false
+            "show_full_description": true
           }
         },
         "checkmarks": {
